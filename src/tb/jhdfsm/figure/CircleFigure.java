@@ -23,8 +23,8 @@ public class CircleFigure extends AttributeFigure {
 	 */
 	private static final long serialVersionUID = -8284875653220127421L;
 	
-	private Rectangle   fDisplayBox;
-	private Point centerPoint;
+	private Rectangle fDisplayBox;
+	protected Point centerPoint;
 
     @SuppressWarnings("unused")
 	private int ellipseFigureSerializedDataVersion = 1;
@@ -46,7 +46,7 @@ public class CircleFigure extends AttributeFigure {
     	updateDisplayBox(maxXY);    	
     }
 
-    private void updateDisplayBox(int maxXY) {
+    protected void updateDisplayBox(int maxXY) {
     	Point topLeft = new Point(centerPoint.x - maxXY, centerPoint.y - maxXY);
     	Point bottomRight = new Point(centerPoint.x + maxXY, centerPoint.y + maxXY);
     	

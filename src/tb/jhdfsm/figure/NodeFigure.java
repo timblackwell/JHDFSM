@@ -101,8 +101,9 @@ public class NodeFigure extends TextFigure {
     @Override
     public void drawBackground(Graphics g) {    	
     	Rectangle r = displayBox();
-    	g.setColor(Color.WHITE);
         g.fillOval(r.x, r.y, r.width, r.height);
+        g.setColor(getFrameColor());
+        g.drawOval(r.x, r.y, r.width, r.height);
     }
 
     private void drawConnectors(Graphics g) {
@@ -147,6 +148,8 @@ public class NodeFigure extends TextFigure {
     }
 
     private void initialize() {
+        this.setAttribute("FillColor", Color.WHITE);
+        this.setAttribute("FrameColor", Color.BLACK);
         setText("S1");
         Font fb = new Font("Helvetica", Font.BOLD, 12);
         setFont(fb);
