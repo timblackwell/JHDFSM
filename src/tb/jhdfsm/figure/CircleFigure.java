@@ -1,5 +1,6 @@
 package tb.jhdfsm.figure;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
@@ -33,6 +34,7 @@ public class CircleFigure extends AttributeFigure {
     
     public CircleFigure(Point origin, Point corner) {
         basicDisplayBox(origin,corner);
+        this.setAttribute("FillColor", Color.WHITE);
     }
     
     
