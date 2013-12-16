@@ -19,7 +19,7 @@ import CH.ifa.draw.storable.StorableInput;
 import CH.ifa.draw.storable.StorableOutput;
 import CH.ifa.draw.util.Animatable;
 
-public class ArcConnector extends  PolyLineFigure implements ConnectionFigure, Animatable {
+public class StartConnector extends  PolyLineFigure implements ConnectionFigure, Animatable {
 	
 	protected Connector fStart = null;
 	protected Connector fEnd = null;
@@ -29,9 +29,9 @@ public class ArcConnector extends  PolyLineFigure implements ConnectionFigure, A
 	 */
 	private static final long serialVersionUID = -7684104213783845083L;
 	
-	public ArcConnector () {
+	public StartConnector () {
 		super(4);
-		setStartDecoration(new ArrowTip());
+		setEndDecoration(new ArrowTip());
 	}
 	
 		/**
