@@ -1,7 +1,6 @@
 package tb.jhdfsm.figure;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
