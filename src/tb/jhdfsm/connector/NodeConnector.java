@@ -21,7 +21,7 @@ import CH.ifa.draw.storable.StorableInput;
 import CH.ifa.draw.storable.StorableOutput;
 import CH.ifa.draw.util.Animatable;
 
-public class NodeConnector extends  PolyLineFigure implements ConnectionFigure, Animatable {
+public class NodeConnector extends PolyLineFigure implements ConnectionFigure, Animatable {
 	
 	protected Connector fStart = null;
 	protected Connector fEnd = null;
@@ -37,6 +37,10 @@ public class NodeConnector extends  PolyLineFigure implements ConnectionFigure, 
 		setEndDecoration(new ArrowTip());
 		lable = new TextFigure();
 		lable.setText("test");
+	}
+	
+	public Figure getTextFigure() {
+		return lable;
 	}
 	
 		/**
@@ -345,7 +349,6 @@ public class NodeConnector extends  PolyLineFigure implements ConnectionFigure, 
 		if (fStart != null) {
 			Point start = fStart.findStart(this);
 			startPoint(start.x, start.y);
-			System.out.format("Start x: %d, y: %d %n", start.x , start.y);
 
 			x = start.x;
 			y = start.y;
@@ -353,15 +356,12 @@ public class NodeConnector extends  PolyLineFigure implements ConnectionFigure, 
 		if (fEnd != null) {
 			Point end = fEnd.findEnd(this);
 			endPoint(end.x, end.y);
-			System.out.format("End x: %d, y: %d %n", end.x , end.y);
 
 			x += (end.x - x)/2;
 			y += (end.y - y)/2;
 		}
 		
 		if (fStart != null && fEnd != null) {
-			/////
-			System.out.format("mid x: %d, y: %d %n", x , y);
 			Point center = new Point(x, y);
 			lable.displayBox(center, center);
 		}

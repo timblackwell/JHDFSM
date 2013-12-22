@@ -7,11 +7,11 @@ import tb.jhdfsm.connector.NodeConnector;
 import tb.jhdfsm.figure.NodeFigure;
 import tb.jhdfsm.figure.StartNode;
 import tb.jhdfsm.tool.EndNodeTool;
+import tb.jhdfsm.tool.TextTool;
 import CH.ifa.draw.application.DrawApplication;
 import CH.ifa.draw.framework.Tool;
 import CH.ifa.draw.tool.ConnectionTool;
 import CH.ifa.draw.tool.CreationTool;
-import CH.ifa.draw.tool.TextTool;
 
 public class FSMApplication extends DrawApplication {
 	
