@@ -1,11 +1,12 @@
 package tb.jhdfsm.figure;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.Vector;
 
-import tb.jhdfsm.connector.StartConnector;
-import CH.ifa.draw.figure.connection.LineConnection;
+import tb.jhdfsm.connector.NodeConnector;
 import CH.ifa.draw.framework.ConnectionFigure;
 import CH.ifa.draw.framework.Handle;
 import CH.ifa.draw.handle.ConnectionHandle;
@@ -18,9 +19,12 @@ public class StartNode extends CircleFigure{
 	 */
 	private static final long serialVersionUID = -8363466797940835974L;
 
+    public boolean endNode;
+
 	public StartNode() {
 		super();
 		this.setAttribute("FillColor", Color.BLACK);
+		this.setAttribute("FrameColor", Color.BLACK);
 	}
     
     
@@ -31,10 +35,24 @@ public class StartNode extends CircleFigure{
     	updateDisplayBox(maxXY);    
 	}
 	
-	 @Override
+	@Override
+	public void drawBackground(Graphics g) {
+        Rectangle r = displayBox();
+        g.fillOval(r.x, r.y, r.width, r.height);
+        
+        if (endNode) {        	
+        	int grow = (int) (r.height*0.15);
+            r.grow(grow, grow);
+            
+            g.setColor(getFrameColor());
+            g.drawOval(r.x, r.y, r.width, r.height);
+        }
+	}
+	
+	@Override
 	public Vector<Handle> handles() {
         Vector<Handle> handles = new Vector<Handle>();
-        ConnectionFigure prototype = new StartConnector();
+        ConnectionFigure prototype = new NodeConnector();
         handles.addElement(new ConnectionHandle(this, RelativeLocator.center(), prototype));
         return handles;
     }
