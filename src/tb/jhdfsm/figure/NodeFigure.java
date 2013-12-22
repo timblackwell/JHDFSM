@@ -8,26 +8,18 @@ package tb.jhdfsm.figure;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Enumeration;
 import java.util.Vector;
 
-import tb.jhdfsm.connector.OffBitConnector;
-import tb.jhdfsm.connector.OnBitConnector;
-import tb.jhdfsm.connector.StartConnector;
+import tb.jhdfsm.connector.NodeConnector;
 import CH.ifa.draw.connector.ChopEllipseConnector;
 import CH.ifa.draw.connector.LocatorConnector;
-import CH.ifa.draw.connector.ShortestDistanceConnector;
 import CH.ifa.draw.figure.TextFigure;
-import CH.ifa.draw.figure.connection.LineConnection;
 import CH.ifa.draw.framework.ConnectionFigure;
 import CH.ifa.draw.framework.Connector;
 import CH.ifa.draw.framework.Handle;
 import CH.ifa.draw.handle.ConnectionHandle;
-import CH.ifa.draw.handle.NullHandle;
 import CH.ifa.draw.locator.RelativeLocator;
-import CH.ifa.draw.util.Geom;
 
 
 public class NodeFigure extends TextFigure {
@@ -88,29 +80,24 @@ public class NodeFigure extends TextFigure {
     @Override
     public void drawBackground(Graphics g) {    	
     	Rectangle r = displayBox();
-    	if (endNode) {
-        	Rectangle rBig = displayBox();
-        	
-            int grow = (int) (r.height*0.15);
-            rBig.grow(grow, grow);
-        	
-            g.fillOval(rBig.x, rBig.y, rBig.width, rBig.height);
-            
-            g.setColor(getFrameColor());
-            g.drawOval(rBig.x, rBig.y, rBig.width, rBig.height);
-    	} else {
-        g.fillOval(r.x, r.y, r.width, r.height);
-    	}
-    	
+        g.fillOval(r.x, r.y, r.width, r.height);    	
     	g.setColor(getFrameColor());
         g.drawOval(r.x, r.y, r.width, r.height);
+        
+        if (endNode) {
+            int grow = (int) (r.height*0.15);
+            r.grow(grow, grow);
+            g.drawOval(r.x, r.y, r.width, r.height);
+    	}
         
     }
 
     @Override
 	public Vector<Handle> handles() {
-        Vector<Handle> handles = new Vector<Handle>();
-        return handles;
+    	 Vector<Handle> handles = new Vector<Handle>();
+         ConnectionFigure prototype = new NodeConnector();
+         handles.addElement(new ConnectionHandle(this, RelativeLocator.center(), prototype));
+         return handles;
     }
 
     private void initialize() {
