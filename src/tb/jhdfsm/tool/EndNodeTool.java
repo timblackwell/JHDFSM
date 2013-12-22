@@ -1,6 +1,7 @@
 package tb.jhdfsm.tool;
 
 import tb.jhdfsm.figure.NodeFigure;
+import tb.jhdfsm.figure.StartNode;
 import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.tool.ActionTool;
@@ -17,6 +18,11 @@ public class EndNodeTool extends ActionTool {
 		if (figure instanceof NodeFigure)
 		{
 			((NodeFigure) figure).endNode = !((NodeFigure) figure).endNode;
+		}
+		
+		if (figure instanceof StartNode)
+		{
+			((StartNode) figure).endNode = !((StartNode) figure).endNode;
 		}
 	}
 
