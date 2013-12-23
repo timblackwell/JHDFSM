@@ -8,7 +8,9 @@ package tb.jhdfsm.figure;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Enumeration;
 import java.util.Vector;
 
 import tb.jhdfsm.connector.NodeConnector;
@@ -20,6 +22,7 @@ import CH.ifa.draw.framework.Connector;
 import CH.ifa.draw.framework.Handle;
 import CH.ifa.draw.handle.ConnectionHandle;
 import CH.ifa.draw.locator.RelativeLocator;
+import CH.ifa.draw.util.Geom;
 
 
 public class NodeFigure extends TextFigure {
@@ -28,6 +31,7 @@ public class NodeFigure extends TextFigure {
 	private static final int BORDER = 5;
     private boolean fConnectorsVisible;
     public boolean endNode;
+	private Vector<LocatorConnector> fConnectors;
 
     public NodeFigure() {
         initialize();
@@ -37,7 +41,38 @@ public class NodeFigure extends TextFigure {
      */
     @Override
 	public Connector connectorAt(int x, int y) {
-        return new ChopEllipseConnector(this);
+        return findConnector(x, y);
+    }
+    
+    private Connector findConnector(int x, int y) {
+        // return closest connector
+        long min = Long.MAX_VALUE;
+        Connector closest = null;
+        Enumeration<LocatorConnector> e = connectors().elements();
+        while (e.hasMoreElements()) {
+            Connector c = e.nextElement();
+            Point p2 = Geom.center(c.displayBox());
+            long d = Geom.length2(x, y, p2.x, p2.y);
+            if (d < min) {
+                min = d;
+                closest = c;
+            }
+        }
+        return closest;
+    }
+    
+    private Vector<LocatorConnector> connectors() {
+		if (fConnectors == null)
+            createConnectors();
+        return fConnectors;
+    }
+    
+    private void createConnectors() {
+        fConnectors = new Vector<LocatorConnector>(4);
+        fConnectors.addElement(new LocatorConnector(this, RelativeLocator.north()) );
+        fConnectors.addElement(new LocatorConnector(this, RelativeLocator.south()) );
+        fConnectors.addElement(new LocatorConnector(this, RelativeLocator.west()) );
+        fConnectors.addElement(new LocatorConnector(this, RelativeLocator.east()) );
     }
 
     /**
@@ -75,6 +110,15 @@ public class NodeFigure extends TextFigure {
 	public void draw(Graphics g) {
     	this.drawBackground(g);
         super.draw(g);
+        drawConnectors(g);
+    }
+    
+    private void drawConnectors(Graphics g) {
+        if (fConnectorsVisible) {
+            Enumeration<LocatorConnector> e = connectors().elements();
+            while (e.hasMoreElements())
+                e.nextElement().draw(g);
+        }
     }
 
     @Override
@@ -96,7 +140,11 @@ public class NodeFigure extends TextFigure {
 	public Vector<Handle> handles() {
     	 Vector<Handle> handles = new Vector<Handle>();
          ConnectionFigure prototype = new NodeConnector();
-         handles.addElement(new ConnectionHandle(this, RelativeLocator.center(), prototype));
+
+         handles.addElement(new ConnectionHandle(this, RelativeLocator.north(), prototype));
+         handles.addElement(new ConnectionHandle(this, RelativeLocator.east(), prototype));
+         handles.addElement(new ConnectionHandle(this, RelativeLocator.south(), prototype));
+         handles.addElement(new ConnectionHandle(this, RelativeLocator.west(), prototype));
          return handles;
     }
 
