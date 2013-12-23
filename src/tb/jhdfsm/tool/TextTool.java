@@ -105,9 +105,9 @@ public class TextTool extends CreationTool {
 	        editor().toolDone();
 	        endEdit();
 	    } else {
-    	    super.mouseDown(e, x, y);
-    	    textHolder = (TextHolder)createdFigure();
-    	    beginEdit(textHolder);
+//    	    super.mouseDown(e, x, y);
+//    	    textHolder = (TextHolder)createdFigure();
+//    	    beginEdit(textHolder);
         }
     }
 
