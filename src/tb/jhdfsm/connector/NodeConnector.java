@@ -62,7 +62,14 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 
 	@Override
 	public void draw(Graphics g) {
-		super.draw(g);
+		g.setColor(getFrameColor());
+		Point p1, p2;
+			
+		for (int i = 0; i < fPoints.size() - 1; i++) {
+			p1 = fPoints.elementAt(i);
+			p2 = fPoints.elementAt(i + 1);
+			g.drawLine(p1.x, p1.y, p2.x, p2.y);
+		}		
 		lable.draw(g);
 	}	
 	
@@ -364,6 +371,7 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		
 		if (fStart != null && fEnd != null) {
 			y = y - (lable.displayBox().height/2);
+			x = x - (lable.displayBox().width/2);
 			Point center = new Point(x, y);
 			lable.displayBox(center, center);
 		}
