@@ -1,11 +1,13 @@
 package tb.jhdfsm.connector;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Vector;
 
+import tb.jhdfsm.figure.NodeFigure;
 import CH.ifa.draw.figure.ArrowTip;
 import CH.ifa.draw.figure.PolyLineFigure;
 import CH.ifa.draw.figure.TextFigure;
@@ -37,6 +39,7 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		setEndDecoration(new ArrowTip());
 		lable = new TextFigure();
 		lable.setText("test");
+		lable.setAttribute("FillColor", Color.lightGray);
 	}
 	
 	public Figure getTextFigure() {
@@ -63,6 +66,11 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		lable.draw(g);
 	}	
 	
+	@Override
+	public boolean containsPoint(int x, int y) {
+		return super.containsPoint(x, y) || lable.containsPoint(x, y); 
+	}
+	
 	/**
 	 * Tests whether a figure can be a connection target. ConnectionFigures
 	 * cannot be connected and return false.
@@ -76,15 +84,8 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 	 * Tests whether two figures can be connected.
 	 */
 	@Override
-	public boolean canConnect(Figure start, Figure end) {	
-//		if (start.equals(end) || !(start instanceof PlanetFigure) || !(end instanceof OrbitFigure)) {
-//			return false;
-//		}
-//		
-//		OrbitFigure orbiter = (OrbitFigure)end;		
-//		return orbiter.canOrbit();
-		
-		return true;
+	public boolean canConnect(Figure start, Figure end) {				
+		return start instanceof NodeFigure && end instanceof NodeFigure;
 	}
 
 	/**
@@ -362,6 +363,7 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		}
 		
 		if (fStart != null && fEnd != null) {
+			y = y - (lable.displayBox().height/2);
 			Point center = new Point(x, y);
 			lable.displayBox(center, center);
 		}
