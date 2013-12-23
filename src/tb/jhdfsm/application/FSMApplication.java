@@ -1,4 +1,4 @@
-package tb.jhdsfm.application;
+package tb.jhdfsm.application;
 
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -16,6 +16,8 @@ import CH.ifa.draw.tool.CreationTool;
 public class FSMApplication extends DrawApplication {
 	
 	private static final long serialVersionUID = -7286367658180495935L;
+	
+    public static final String JHDFSMIMAGES = "/tb/jhdfsm/images/";
 
 	public static void main(String[] args) {
 		FSMApplication fsm = new FSMApplication();
@@ -38,16 +40,16 @@ public class FSMApplication extends DrawApplication {
         palette.add(createToolButton(IMAGES+"TEXT", "Text Tool", tool));
         
         tool = new CreationTool(view(), new StartNode());
-        palette.add(createToolButton(IMAGES+"ELLIPSE", "Node Tool", tool)); 
+        palette.add(createToolButton(JHDFSMIMAGES+"STARTNODE", "Start Node Tool", tool)); 
         
         tool = new CreationTool(view(), new NodeFigure());
         palette.add(createToolButton(IMAGES+"ELLIPSE", "Node Tool", tool));
         
 		tool = new EndNodeTool(view());
-		palette.add(createToolButton(IMAGES + "ELLIPSE", "End Node", tool));
+		palette.add(createToolButton(IMAGES + "ELLIPSE", "End Node Tool", tool));
 		
 		tool = new ConnectionTool(view(), new NodeConnector());
-        palette.add(createToolButton(IMAGES+"CONN", "On Bit Tool", tool));
+        palette.add(createToolButton(IMAGES+"CONN", "Node Connector", tool));
 	}
 	
 	public void destroy() {
