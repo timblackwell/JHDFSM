@@ -1,14 +1,17 @@
 package tb.jhdfsm.application;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import tb.jhdfsm.command.ValidateCommand;
 import tb.jhdfsm.connector.NodeConnector;
 import tb.jhdfsm.figure.NodeFigure;
 import tb.jhdfsm.figure.StartNode;
 import tb.jhdfsm.tool.EndNodeTool;
 import tb.jhdfsm.tool.TextTool;
 import CH.ifa.draw.application.DrawApplication;
+import CH.ifa.draw.command.CommandMenu;
 import CH.ifa.draw.framework.Tool;
 import CH.ifa.draw.tool.ConnectionTool;
 import CH.ifa.draw.tool.CreationTool;
@@ -28,8 +31,16 @@ public class FSMApplication extends DrawApplication {
         super("Finite state machine");
     }
 	
+	@Override
 	protected void createMenus(JMenuBar mb) {
 		super.createMenus(mb);
+		mb.add(createFSMMenu());
+    }
+	
+	protected JMenu createFSMMenu() {
+		CommandMenu menu = new CommandMenu("Finite State Machine");
+		menu.add(new ValidateCommand("Validate Finite State Machine", super.view()));
+		return menu;
 	}
 	
 	@Override
