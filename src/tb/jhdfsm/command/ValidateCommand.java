@@ -31,7 +31,7 @@ private DrawingView fView;
 		Enumeration<Figure> figures = fDrawing.figures();
 		
 		List<StartNode> startNodes = new ArrayList<StartNode>();
-		List<StartNodeConnector> startNodeConnector = new ArrayList<StartNodeConnector>();
+		List<StartNodeConnector> startNodeConnectors = new ArrayList<StartNodeConnector>();
 
 		List<NodeFigure> nodes = new ArrayList<NodeFigure>();
 		List<NodeConnector> nodeConnectors = new ArrayList<NodeConnector>();
@@ -47,7 +47,7 @@ private DrawingView fView;
 			} else if (figure instanceof NodeConnector) {
 				nodeConnectors.add((NodeConnector)figure);
 			} else if (figure instanceof StartNodeConnector) {
-				startNodeConnector.add((StartNodeConnector)figure);
+				startNodeConnectors.add((StartNodeConnector)figure);
 			}
 		}
 		
@@ -59,6 +59,19 @@ private DrawingView fView;
 				break;
 			}
 			case 1 : {
+					switch (startNodeConnectors.size()) {
+						case 0 : {
+							errors += "Start node must be connected one node";
+							break;
+						}
+						case 1 : {
+							break;
+							}
+						default : {
+							errors += "Start node connected to too many nodes.";
+							break;
+						}
+					}
 				break;
 			}
 			default : {

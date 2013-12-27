@@ -1,6 +1,5 @@
 package tb.jhdfsm.connector;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import tb.jhdfsm.figure.NodeFigure;
 import tb.jhdfsm.figure.StartNode;
 import CH.ifa.draw.figure.ArrowTip;
 import CH.ifa.draw.figure.PolyLineFigure;
-import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.framework.ConnectionFigure;
 import CH.ifa.draw.framework.Connector;
 import CH.ifa.draw.framework.Figure;
@@ -28,6 +26,8 @@ public class StartNodeConnector extends PolyLineFigure implements ConnectionFigu
 	
 	protected Connector fStart = null;
 	protected Connector fEnd = null;
+	
+	private boolean connected = false;
 	/**
 	 * 
 	 */
@@ -196,6 +196,7 @@ public class StartNodeConnector extends PolyLineFigure implements ConnectionFigu
 //		OrbitFigure orbiter = (OrbitFigure)end;
 //		orbiter.canOrbit(false);
 		((StartNode)start).connected(true);
+		connected = true;
 	}
 
 	/**
@@ -203,7 +204,9 @@ public class StartNodeConnector extends PolyLineFigure implements ConnectionFigu
 	 * this event.
 	 */
 	protected void handleDisconnect(Figure start, Figure end) {
-		((StartNode)start).connected(false);
+		if (connected) {
+			((StartNode)start).connected(false);	
+		}
 	}
 
 	/**
