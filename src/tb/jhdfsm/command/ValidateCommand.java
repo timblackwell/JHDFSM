@@ -11,6 +11,7 @@ import tb.jhdfsm.connector.StartNodeConnector;
 import tb.jhdfsm.figure.NodeFigure;
 import tb.jhdfsm.figure.StartNode;
 import CH.ifa.draw.command.Command;
+import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.framework.Drawing;
 import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.Figure;
@@ -37,6 +38,7 @@ private DrawingView fView;
 		List<NodeConnector> nodeConnectors = new ArrayList<NodeConnector>();
 		
 		Figure figure;
+		TextFigure errorsFigure = null;
 		
 		while (figures.hasMoreElements()) {
 			figure = figures.nextElement();
@@ -48,6 +50,8 @@ private DrawingView fView;
 				nodeConnectors.add((NodeConnector)figure);
 			} else if (figure instanceof StartNodeConnector) {
 				startNodeConnectors.add((StartNodeConnector)figure);
+			} else if (figure instanceof TextFigure) {
+				errorsFigure = (TextFigure)figure;
 			}
 		}
 		
@@ -61,7 +65,9 @@ private DrawingView fView;
 			case 1 : {
 					switch (startNodeConnectors.size()) {
 						case 0 : {
-							errors += "Start node must be connected one node";
+							if (nodes.size() > 0) {
+								errors += "Start node must be connected one node";
+							}
 							break;
 						}
 						case 1 : {
@@ -111,11 +117,27 @@ private DrawingView fView;
 			}
 		}
 		
+		for (NodeConnector nodeConnector : nodeConnectors) {
+			TextFigure text = (TextFigure)nodeConnector.getTextFigure();
+			if (!text.getText().equals("0") && !text.getText().equals("1")) {
+				errors += "Connecting lable is not in the input alpabet";
+			}
+		}
+		
 		if (errors.isEmpty()) {
 			errors += "Valid";
 		}
 		
-		System.out.println(errors);
+		
+		if (errorsFigure == null) {
+			errorsFigure = new TextFigure();
+		}
+		
+		errorsFigure.setText(errors);
+		
+		fView.add(errorsFigure);
+		fView.checkDamage();
+//		System.out.println(errors);
 	}
 
 }

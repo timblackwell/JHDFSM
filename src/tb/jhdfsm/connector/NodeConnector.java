@@ -152,6 +152,7 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 	 */
 	@Override
 	public boolean connectsSame(ConnectionFigure other) {
+		System.out.println("connectSame");
 		return other.start() == start() && other.end() == end();
 	}
 
