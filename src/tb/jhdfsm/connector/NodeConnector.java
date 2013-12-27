@@ -2,7 +2,9 @@ package tb.jhdfsm.connector;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Path2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Vector;
@@ -59,23 +61,62 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 
 		updateConnection(); // make sure that we are still connected
 	}
+	
+	
+	private void decorate(Graphics g) {
+		if (fStartDecoration != null) {
+			Point p1 = fPoints.elementAt(0);
+			Point p2 = fPoints.elementAt(1);
+			fStartDecoration.draw(g, p1.x, p1.y, p2.x, p2.y);
+		}
+		if (fEndDecoration != null) {
+			Point p3 = fPoints.elementAt(fPoints.size() - 2);
+			Point p4 = fPoints.elementAt(fPoints.size() - 1);
+			fEndDecoration.draw(g, p4.x, p4.y, p3.x, p3.y);
+		}
+	}
 
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(getFrameColor());
-		Point p1, p2;
+		
+		if (fStart != null && fEnd != null) {
+			Point start = fStart.findStart(this);
+			Point end = fEnd.findEnd(this);
+			double midx = Math.min(end.x, start.x)+((end.x-start.x)/2);
 			
-		for (int i = 0; i < fPoints.size() - 1; i++) {
-			p1 = fPoints.elementAt(i);
-			p2 = fPoints.elementAt(i + 1);
-			g.drawLine(p1.x, p1.y, p2.x, p2.y);
-		}		
+	        Path2D curve = new Path2D.Double();
+	        curve.moveTo(start.x, start.y);
+	        curve.curveTo(start.x, start.y, midx, start.y, end.x, end.y);
+
+	        Graphics2D g2 = (Graphics2D)g;
+	        g2.draw(curve);		
+	        
+	        decorate(g);
+	    } else {
+	    	super.draw(g);
+		}
 		lable.draw(g);
+
 	}	
 	
 	@Override
 	public boolean containsPoint(int x, int y) {
-		return super.containsPoint(x, y) || lable.containsPoint(x, y); 
+		boolean lineContainsPoint = false;
+		
+		if (fStart != null && fEnd != null) {
+			Point start = fStart.findStart(this);
+			Point end = fEnd.findEnd(this);
+			double midx = Math.min(end.x, start.x)+((end.x-start.x)/2);
+			
+	        Path2D curve = new Path2D.Double();
+	        curve.moveTo(start.x, start.y);
+	        curve.curveTo(start.x, start.y, midx, start.y, end.x, end.y);
+	        
+		    lineContainsPoint = curve.contains(x, y);
+	    } else {
+	    	lineContainsPoint = super.containsPoint(x, y);
+		}
+		return lineContainsPoint || lable.containsPoint(x, y); 
 	}
 	
 	/**
@@ -84,7 +125,7 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 	 */
 	@Override
 	public boolean canConnect() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -373,7 +414,7 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 			y = y - (lable.displayBox().height/2);
 			x = x - (lable.displayBox().width/2);
 			Point center = new Point(x, y);
-			lable.displayBox(center, center);
+			lable.displayBox(center, center);			
 		}
 		
 	}
@@ -384,6 +425,7 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		dw.writeStorable(fStart);
 		dw.writeStorable(fEnd);
 	}
+	
 
 	@Override
 	public void animationStep() {
