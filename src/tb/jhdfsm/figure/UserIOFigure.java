@@ -73,60 +73,6 @@ public class UserIOFigure extends CompositeFigure {
     	end.setReadOnly(true);
     	add(end);
     }
-    
-
-//    public int start() {
-//        int start = 0;
-//        return start;
-//    }
-//
-//    public int end() {
-//        return asInt(2);
-//    }
-//
-//    public int duration() {
-//        return asInt(1);
-//    }
-//
-//    public void setEnd(int value) {
-//        setInt(2, value);
-//    }
-
-//    public void addPreTask(UserIOFigure figure) {
-//        if (!fPreTasks.contains(figure)) {
-//            fPreTasks.addElement(figure);
-//        }
-//    }
-//
-//    public void addPostTask(UserIOFigure figure) {
-//        if (!fPostTasks.contains(figure)) {
-//            fPostTasks.addElement(figure);
-//        }
-//    }
-//
-//    public void removePreTask(UserIOFigure figure) {
-//        fPreTasks.removeElement(figure);
-//    }
-//
-//    public void removePostTask(UserIOFigure figure) {
-//        fPostTasks.removeElement(figure);
-//    }
-
-//    private int asInt(int figureIndex) {
-//        NumberTextFigure t = (NumberTextFigure)figureAt(figureIndex);
-//        return t.getValue();
-//    }
-
-//    @SuppressWarnings("unused")
-//	private String taskName() {
-//        TextFigure t = (TextFigure)figureAt(0);
-//        return t.getText();
-//    }
-
-//    private void setInt(int figureIndex, int value) {
-//        NumberTextFigure t = (NumberTextFigure)figureAt(figureIndex);
-//        t.setValue(value);
-//    }
 
     protected void basicMoveBy(int x, int y) {
 	    fDisplayBox.translate(x, y);
@@ -152,12 +98,12 @@ public class UserIOFigure extends CompositeFigure {
 
         Rectangle r = displayBox();
 
-        Figure f = figureAt(0);
+        Figure f = figureAt(1);
         Rectangle rf = f.displayBox();
         g.setColor(Color.gray);
-        g.drawLine(r.x, r.y+rf.height+2, r.x+r.width, r.y + rf.height+2);
+        g.drawLine(r.x, rf.y+rf.height, r.x+r.width, rf.y + rf.height);
         g.setColor(Color.white);
-        g.drawLine(r.x, r.y+rf.height+3, r.x+r.width, r.y + rf.height+3);
+        g.drawLine(r.x, rf.y+rf.height+1, r.x+r.width, rf.y + rf.height+1);
 
         g.setColor(Color.white);
         g.drawLine(r.x, r.y, r.x, r.y + r.height);
@@ -182,7 +128,20 @@ public class UserIOFigure extends CompositeFigure {
     }
 
     private void initialize() {
+        Font f = new Font("Helvetica", Font.PLAIN, 12);
         Font fb = new Font("Helvetica", Font.BOLD, 12);
+
+        TextFigure inputStringLable = new TextFigure();
+        inputStringLable.setFont(fb);
+        inputStringLable.setText("Input string:");
+        inputStringLable.setReadOnly(true);
+        add(inputStringLable);
+        
+        TextFigure inputString = new TextFigure();
+        inputString.setFont(f);
+        inputString.setText("Enter input string");
+        inputString.setReadOnly(false);
+        add(inputString);
 
         TextFigure errorsLable = new TextFigure();
         errorsLable.setFont(fb);
@@ -196,7 +155,6 @@ public class UserIOFigure extends CompositeFigure {
     }
 
     private void layout() {
-    	System.out.println("layout");
 	    Point partOrigin = new Point(fDisplayBox.x, fDisplayBox.y);
 	    partOrigin.translate(BORDER, BORDER);
 	    Dimension extent = new Dimension(0, 0);
@@ -249,29 +207,15 @@ public class UserIOFigure extends CompositeFigure {
         update(e);
     }
 
-//    public void notifyPostTasks() {
-//        Enumeration<UserIOFigure> i = fPostTasks.elements();
-//        while (i.hasMoreElements())
-//            ((UserIOFigure) i.nextElement()).updateDurations();
-//    }
-
     public void updateText() {
 //      int newEnd = start()+duration();
 
-    	TextFigure errorsLable = (TextFigure)fFigures.firstElement();
+    	TextFigure errorsLable = (TextFigure)fFigures.get(2);
         errorsLable.setText("Validation errors: " + errors.size());
+        
+        
+        System.out.println("update");
 //    	notifyPostTasks();
-    }
-
-    public boolean hasCycle(Figure start) {
-//        if (start == this)
-//            return true;
-//        Enumeration<UserIOFigure> i = fPreTasks.elements();
-//        while (i.hasMoreElements()) {
-//            if ((i.nextElement()).hasCycle(start))
-//                return true;
-//        }
-        return false;
     }
     
     public Insets connectionInsets() {
