@@ -10,6 +10,8 @@ import tb.jhdfsm.connector.NodeConnector;
 import tb.jhdfsm.connector.StartNodeConnector;
 import tb.jhdfsm.figure.NodeFigure;
 import tb.jhdfsm.figure.StartNode;
+import tb.jhdfsm.figure.UserIOFigure;
+import tb.jhdfsm.figure.UserIOFigure.ValidationError;
 import CH.ifa.draw.command.Command;
 import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.framework.Drawing;
@@ -38,7 +40,7 @@ private DrawingView fView;
 		List<NodeConnector> nodeConnectors = new ArrayList<NodeConnector>();
 		
 		Figure figure;
-		TextFigure errorsFigure = null;
+		UserIOFigure errorsFigure = null;
 		
 		while (figures.hasMoreElements()) {
 			figure = figures.nextElement();
@@ -50,23 +52,28 @@ private DrawingView fView;
 				nodeConnectors.add((NodeConnector)figure);
 			} else if (figure instanceof StartNodeConnector) {
 				startNodeConnectors.add((StartNodeConnector)figure);
-			} else if (figure instanceof TextFigure) {
-				errorsFigure = (TextFigure)figure;
+			} else if (figure instanceof UserIOFigure) {
+				errorsFigure = (UserIOFigure)figure;
 			}
 		}
 		
-		String errors = "";
+		if (errorsFigure == null) {
+			errorsFigure = new UserIOFigure();
+			fView.add(errorsFigure);
+		}
 		
+		errorsFigure.clearErrors();
+				
 		switch (startNodes.size()) {
 			case 0 : {
-				errors += "Missing start node";
+				errorsFigure.addError(ValidationError.MissingStartNode);
 				break;
 			}
 			case 1 : {
 					switch (startNodeConnectors.size()) {
 						case 0 : {
 							if (nodes.size() > 0) {
-								errors += "Start node must be connected one node";
+								errorsFigure.addError(ValidationError.MissingStartNodeConnection);
 							}
 							break;
 						}
@@ -74,14 +81,14 @@ private DrawingView fView;
 							break;
 							}
 						default : {
-							errors += "Start node connected to too many nodes.";
+							errorsFigure.addError(ValidationError.ExtraStartNodeConnection);
 							break;
 						}
 					}
 				break;
 			}
 			default : {
-				errors += "Too many start nodes";
+				errorsFigure.addError(ValidationError.ExtraStartNode);
 				break;
 			}
 		}
@@ -100,18 +107,18 @@ private DrawingView fView;
 		for (NodeFigure node : nodes) {
 			switch (nodeConnectorHash.get(node).size()) {
 				case 0 : {
-					errors += "Missing node connections";
+					errorsFigure.addError(ValidationError.MissingNodeConnection);
 					break;
 				}
 				case 1 : {
-					errors += "Missing node connections";
+					errorsFigure.addError(ValidationError.MissingNodeConnection);
 					break;
 				}
 				case 2 : {
 					break;
 				}
 				default: {
-					errors += "Too many node connections";
+					errorsFigure.addError(ValidationError.ExtraNodeConnection);
 					break;
 				}
 			}
@@ -120,22 +127,11 @@ private DrawingView fView;
 		for (NodeConnector nodeConnector : nodeConnectors) {
 			TextFigure text = (TextFigure)nodeConnector.getTextFigure();
 			if (!text.getText().equals("0") && !text.getText().equals("1")) {
-				errors += "Connecting lable is not in the input alpabet";
+				errorsFigure.addError(ValidationError.LableNotInAlphabet);
 			}
 		}
 		
-		if (errors.isEmpty()) {
-			errors += "Valid";
-		}
-		
-		
-		if (errorsFigure == null) {
-			errorsFigure = new TextFigure();
-		}
-		
-		errorsFigure.setText(errors);
-		
-		fView.add(errorsFigure);
+		errorsFigure.updateText();
 		fView.checkDamage();
 //		System.out.println(errors);
 	}
