@@ -9,12 +9,12 @@ import tb.jhdfsm.connector.NodeConnector;
 import tb.jhdfsm.figure.NodeFigure;
 import tb.jhdfsm.figure.StartNode;
 import tb.jhdfsm.tool.EndNodeTool;
+import tb.jhdfsm.tool.NodeConnectionTool;
 import tb.jhdfsm.tool.TextTool;
 import CH.ifa.draw.application.DrawApplication;
 import CH.ifa.draw.command.CommandMenu;
 import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.framework.Tool;
-import CH.ifa.draw.tool.ConnectionTool;
 import CH.ifa.draw.tool.CreationTool;
 
 public class FSMApplication extends DrawApplication {
@@ -65,13 +65,14 @@ public class FSMApplication extends DrawApplication {
 		TextFigure connectionText0 = (TextFigure) nodeConnector0.getTextFigure();
 		connectionText0.setText("0");
 		
-		tool = new ConnectionTool(view(), nodeConnector0);
+		tool = new NodeConnectionTool(view(), nodeConnector0);
         palette.add(createToolButton(IMAGES+"CONN", "Node Connector", tool));
         
         NodeConnector nodeConnector1 = new NodeConnector();
 		TextFigure connectionText1 = (TextFigure) nodeConnector1.getTextFigure();
 		connectionText1.setText("1");
-		tool = new ConnectionTool(view(), nodeConnector1);
+		
+		tool = new NodeConnectionTool(view(), nodeConnector1);
         palette.add(createToolButton(IMAGES+"CONN", "Node Connector", tool));
 	}
 	
