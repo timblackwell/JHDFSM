@@ -1,10 +1,8 @@
 package tb.jhdfsm.connector;
 
-import tb.jhdfsm.figure.NodeFigure;
-import CH.ifa.draw.framework.Connector;
 
 
-public class ZeroNodeConnector extends NodeConnector {
+public class ZeroNodeConnector extends StateLineConnector {
 	
 	/**
 	 * 

@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import tb.jhdfsm.connector.NodeConnector;
+import tb.jhdfsm.connector.StateLineConnector;
 import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.tool.CreationTool;
@@ -91,9 +91,9 @@ public class TextTool extends CreationTool {
 	        if (!textHolder.acceptsTyping())
 	            textHolder = null;
         }
-	    if (pressedFigure instanceof NodeConnector) {
+	    if (pressedFigure instanceof StateLineConnector) {
 	    	
-	        textHolder = (TextHolder) ((NodeConnector) pressedFigure).getTextFigure();
+	        textHolder = (TextHolder) ((StateLineConnector) pressedFigure).getTextFigure();
 	        if (!textHolder.acceptsTyping())
 	            textHolder = null;
         }

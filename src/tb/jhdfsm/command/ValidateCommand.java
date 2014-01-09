@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tb.jhdfsm.connector.NodeConnector;
 import tb.jhdfsm.connector.StartNodeConnector;
+import tb.jhdfsm.connector.StateLineConnector;
 import tb.jhdfsm.figure.NodeFigure;
 import tb.jhdfsm.figure.StartNode;
 import tb.jhdfsm.figure.UserIOFigure;
@@ -37,7 +37,7 @@ private DrawingView fView;
 		List<StartNodeConnector> startNodeConnectors = new ArrayList<StartNodeConnector>();
 
 		List<NodeFigure> nodes = new ArrayList<NodeFigure>();
-		List<NodeConnector> nodeConnectors = new ArrayList<NodeConnector>();
+		List<StateLineConnector> nodeConnectors = new ArrayList<StateLineConnector>();
 		
 		Figure figure;
 		UserIOFigure errorsFigure = null;
@@ -48,8 +48,8 @@ private DrawingView fView;
 				startNodes.add((StartNode)figure);
 			} else if (figure instanceof NodeFigure) {
 				nodes.add((NodeFigure)figure);
-			} else if (figure instanceof NodeConnector) {
-				nodeConnectors.add((NodeConnector)figure);
+			} else if (figure instanceof StateLineConnector) {
+				nodeConnectors.add((StateLineConnector)figure);
 			} else if (figure instanceof StartNodeConnector) {
 				startNodeConnectors.add((StartNodeConnector)figure);
 			} else if (figure instanceof UserIOFigure) {
@@ -93,11 +93,11 @@ private DrawingView fView;
 			}
 		}
 		
-		Map<NodeFigure,ArrayList<NodeConnector>> nodeConnectorHash = new HashMap<NodeFigure,ArrayList<NodeConnector>>();
+		Map<NodeFigure,ArrayList<StateLineConnector>> nodeConnectorHash = new HashMap<NodeFigure,ArrayList<StateLineConnector>>();
 		
 		for (NodeFigure node : nodes) {
-			nodeConnectorHash.put(node, new ArrayList<NodeConnector>());
-			for (NodeConnector nodeConnector : nodeConnectors) {
+			nodeConnectorHash.put(node, new ArrayList<StateLineConnector>());
+			for (StateLineConnector nodeConnector : nodeConnectors) {
 				if (nodeConnector.startFigure().equals(node)){
 					nodeConnectorHash.get(node).add(nodeConnector);
 				}
@@ -124,7 +124,7 @@ private DrawingView fView;
 			}
 		}
 		
-		for (NodeConnector nodeConnector : nodeConnectors) {
+		for (StateLineConnector nodeConnector : nodeConnectors) {
 			TextFigure text = (TextFigure)nodeConnector.getTextFigure();
 			if (!text.getText().equals("0") && !text.getText().equals("1")) {
 				errorsFigure.addError(ValidationError.LableNotInAlphabet);

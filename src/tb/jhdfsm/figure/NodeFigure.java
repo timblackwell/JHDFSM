@@ -11,8 +11,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Vector;
 
-import tb.jhdfsm.connector.NodeConnector;
 import tb.jhdfsm.connector.OneNodeConnector;
+import tb.jhdfsm.connector.StateLineConnector;
 import tb.jhdfsm.connector.ZeroNodeConnector;
 import tb.jhdfsm.interfaces.Validatable;
 import CH.ifa.draw.connector.ChopEllipseConnector;
@@ -132,21 +132,21 @@ public class NodeFigure extends TextFigure implements Validatable {
 		return false;
 	}
 	
-	public void addConnector(NodeConnector connector) {
-		if (connector instanceof ZeroNodeConnector) {
-			zeroNodeConnectons.add((ZeroNodeConnector) connector);
+	public void addConnector(StateLineConnector stateLineConnector) {
+		if (stateLineConnector instanceof ZeroNodeConnector) {
+			zeroNodeConnectons.add((ZeroNodeConnector) stateLineConnector);
 		}
-		if (connector instanceof OneNodeConnector) {
-			oneNodeConnectons.add((OneNodeConnector) connector);
+		if (stateLineConnector instanceof OneNodeConnector) {
+			oneNodeConnectons.add((OneNodeConnector) stateLineConnector);
 		}
 	}
 	
-	public void removeConnector(NodeConnector connector) {
-		if (connector instanceof ZeroNodeConnector) {
-			zeroNodeConnectons.remove((ZeroNodeConnector) connector);
+	public void removeConnector(StateLineConnector stateLineConnector) {
+		if (stateLineConnector instanceof ZeroNodeConnector) {
+			zeroNodeConnectons.remove((ZeroNodeConnector) stateLineConnector);
 		}
-		if (connector instanceof OneNodeConnector) {
-			oneNodeConnectons.remove((OneNodeConnector) connector);
+		if (stateLineConnector instanceof OneNodeConnector) {
+			oneNodeConnectons.remove((OneNodeConnector) stateLineConnector);
 		}
 	}
 

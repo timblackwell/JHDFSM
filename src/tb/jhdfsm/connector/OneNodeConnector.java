@@ -2,7 +2,7 @@ package tb.jhdfsm.connector;
 
 
 
-public class OneNodeConnector extends NodeConnector {
+public class OneNodeConnector extends StateLineConnector {
 	
 	/**
 	 * 
