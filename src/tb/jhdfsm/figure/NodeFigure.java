@@ -28,7 +28,6 @@ public class NodeFigure extends TextFigure implements Validatable {
 	private static final int BORDER = 5;
     private boolean fConnectorsVisible;
     public boolean endNode;
-//	private NodeConnector[] NodeConnectors;
     private Vector<ZeroNodeConnector> zeroNodeConnectons;
     private Vector<OneNodeConnector> oneNodeConnectons;
     private boolean active;
@@ -38,11 +37,6 @@ public class NodeFigure extends TextFigure implements Validatable {
         initialize();
     }
 
-    @Override
-   	public boolean canConnect() {
-           return true;
-       }
-    
     /**
      */
     @Override
@@ -108,14 +102,6 @@ public class NodeFigure extends TextFigure implements Validatable {
             r.grow(grow, grow);
             g.drawOval(r.x, r.y, r.width, r.height);
     	}
-        
-//        if (active) {        	
-//        	int grow = (int) (r.height*0.15);
-//            r.grow(grow, grow);
-//            
-//            g.setColor(getFrameColor());
-//            g.drawOval(r.x, r.y, r.width, r.height);
-//        }
     }
 
     @Override
