@@ -56,13 +56,13 @@ public class UserIOFigure extends CompositeFigure {
     public void clearErrors() {
     	errors.clear();
     	
-    	fFigures = new Vector<>(fFigures.subList(0, 3));
-//    	for(int i = 3; i < fFigures.size(); i++) {
-//    		remove(fFigures.elementAt(i));
-//    	}
-    	this.changed();
-//    	removeAll();
-//    	initialize();
+//    	fFigures = new Vector<>(fFigures.subList(0, 3));
+////    	for(int i = 3; i < fFigures.size(); i++) {
+////    		remove(fFigures.elementAt(i));
+////    	}
+//    	this.changed();
+    	removeAll();
+    	initialize();
     }
     
     public void addError(ValidationError error) {
@@ -102,7 +102,7 @@ public class UserIOFigure extends CompositeFigure {
 
         Rectangle r = displayBox();
 
-        Figure f = figureAt(1);
+        Figure f = figureAt(0);
         Rectangle rf = f.displayBox();
         g.setColor(Color.gray);
         g.drawLine(r.x, rf.y+rf.height, r.x+r.width, rf.y + rf.height);
@@ -144,17 +144,17 @@ public class UserIOFigure extends CompositeFigure {
         Font f = new Font("Helvetica", Font.PLAIN, 12);
         Font fb = new Font("Helvetica", Font.BOLD, 12);
 
-        TextFigure inputStringLable = new TextFigure();
-        inputStringLable.setFont(fb);
-        inputStringLable.setText("Input string:");
-        inputStringLable.setReadOnly(true);
-        add(inputStringLable);
-        
-        TextFigure inputString = new TextFigure();
-        inputString.setFont(f);
-        inputString.setText("Enter input string");
-        inputString.setReadOnly(false);
-        add(inputString);
+//        TextFigure inputStringLable = new TextFigure();
+//        inputStringLable.setFont(fb);
+//        inputStringLable.setText("Input string:");
+//        inputStringLable.setReadOnly(true);
+//        add(inputStringLable);
+//        
+//        TextFigure inputString = new TextFigure();
+//        inputString.setFont(f);
+//        inputString.setText("Enter input string");
+//        inputString.setReadOnly(false);
+//        add(inputString);
 
         TextFigure errorsLable = new TextFigure();
         errorsLable.setFont(fb);
@@ -222,7 +222,7 @@ public class UserIOFigure extends CompositeFigure {
     public void updateText() {
 //      int newEnd = start()+duration();
 
-    	TextFigure errorsLable = (TextFigure)fFigures.get(2);
+    	TextFigure errorsLable = (TextFigure)fFigures.get(0);
         errorsLable.setText("Validation errors: " + errors.size());
         
         
