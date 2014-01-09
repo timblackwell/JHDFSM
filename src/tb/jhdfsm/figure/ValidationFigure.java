@@ -30,7 +30,7 @@ import CH.ifa.draw.storable.StorableInput;
 import CH.ifa.draw.storable.StorableOutput;
 
 
-public class UserIOFigure extends CompositeFigure {
+public class ValidationFigure extends CompositeFigure {
     private static final int BORDER = 3;
     private Rectangle fDisplayBox;
     private List<ValidationError> errors = new ArrayList<ValidationError>();
@@ -48,7 +48,7 @@ public class UserIOFigure extends CompositeFigure {
     @SuppressWarnings("unused")
 	private int pertFigureSerializedDataVersion = 1;
 
-    public UserIOFigure() {
+    public ValidationFigure() {
         initialize();
     }
     
@@ -227,9 +227,9 @@ public class UserIOFigure extends CompositeFigure {
         dw.writeInt(fDisplayBox.height);
     }
 
-    public void writeTasks(StorableOutput dw, Vector<UserIOFigure> v) {
+    public void writeTasks(StorableOutput dw, Vector<ValidationFigure> v) {
         dw.writeInt(v.size());
-        Enumeration<UserIOFigure> i = v.elements();
+        Enumeration<ValidationFigure> i = v.elements();
         while (i.hasMoreElements())
             dw.writeStorable((Storable) i.nextElement());
     }
@@ -244,11 +244,11 @@ public class UserIOFigure extends CompositeFigure {
         layout();
     }
 
-    public Vector<UserIOFigure> readTasks(StorableInput dr) throws IOException {
+    public Vector<ValidationFigure> readTasks(StorableInput dr) throws IOException {
         int size = dr.readInt();
-        Vector<UserIOFigure> v = new Vector<UserIOFigure>(size);
+        Vector<ValidationFigure> v = new Vector<ValidationFigure>(size);
         for (int i=0; i<size; i++)
-            v.addElement((UserIOFigure)dr.readStorable());
+            v.addElement((ValidationFigure)dr.readStorable());
         return v;
     }
 }

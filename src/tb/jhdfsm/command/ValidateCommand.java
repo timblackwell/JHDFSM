@@ -10,8 +10,8 @@ import tb.jhdfsm.connector.StartNodeConnector;
 import tb.jhdfsm.connector.StateLineConnector;
 import tb.jhdfsm.figure.StateFigure;
 import tb.jhdfsm.figure.StartNode;
-import tb.jhdfsm.figure.UserIOFigure;
-import tb.jhdfsm.figure.UserIOFigure.ValidationError;
+import tb.jhdfsm.figure.ValidationFigure;
+import tb.jhdfsm.figure.ValidationFigure.ValidationError;
 import CH.ifa.draw.command.Command;
 import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.framework.Drawing;
@@ -40,7 +40,7 @@ private DrawingView fView;
 		List<StateLineConnector> nodeConnectors = new ArrayList<StateLineConnector>();
 		
 		Figure figure;
-		UserIOFigure errorsFigure = null;
+		ValidationFigure errorsFigure = null;
 		
 		while (figures.hasMoreElements()) {
 			figure = figures.nextElement();
@@ -52,13 +52,13 @@ private DrawingView fView;
 				nodeConnectors.add((StateLineConnector)figure);
 			} else if (figure instanceof StartNodeConnector) {
 				startNodeConnectors.add((StartNodeConnector)figure);
-			} else if (figure instanceof UserIOFigure) {
-				errorsFigure = (UserIOFigure)figure;
+			} else if (figure instanceof ValidationFigure) {
+				errorsFigure = (ValidationFigure)figure;
 			}
 		}
 		
 		if (errorsFigure == null) {
-			errorsFigure = new UserIOFigure();
+			errorsFigure = new ValidationFigure();
 			fView.add(errorsFigure);
 		}
 		
