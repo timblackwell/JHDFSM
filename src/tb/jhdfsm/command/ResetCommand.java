@@ -30,5 +30,7 @@ private DrawingView fView;
 				node.reset();
 			}
 		}
+		
+		fView.repairDamage();
 	}
 }

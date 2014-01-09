@@ -34,6 +34,8 @@ private int input;
 					NodeFigure nextActive = node.nextState(input);
 					node.deactivate();
 					nextActive.activate();
+					fView.repairDamage();
+					return;
 				}
 			}
 		}
