@@ -7,7 +7,6 @@ import java.awt.Rectangle;
 import java.util.Vector;
 
 import tb.jhdfsm.connector.StartNodeConnector;
-import tb.jhdfsm.interfaces.Validatable;
 import CH.ifa.draw.framework.ConnectionFigure;
 import CH.ifa.draw.framework.Handle;
 import CH.ifa.draw.handle.ConnectionHandle;

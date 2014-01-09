@@ -14,7 +14,6 @@ import java.util.Vector;
 import tb.jhdfsm.connector.OneNodeConnector;
 import tb.jhdfsm.connector.StateLineConnector;
 import tb.jhdfsm.connector.ZeroNodeConnector;
-import tb.jhdfsm.interfaces.Validatable;
 import CH.ifa.draw.connector.ChopEllipseConnector;
 import CH.ifa.draw.connector.LocatorConnector;
 import CH.ifa.draw.figure.TextFigure;

@@ -34,6 +34,7 @@ public class StartNodeConnector extends LineConnection {
 	 * Handles the connection of a connection. Override this method to handle
 	 * this event.
 	 */
+	@Override
 	protected void handleConnect(Figure start, Figure end) {
 		((StartNode)start).connected(true);
 		((StartNode)start).addConnector(this);
@@ -45,6 +46,7 @@ public class StartNodeConnector extends LineConnection {
 	/**
 	 * Handles the disconnection of a connection. Override this method to handle
 	 * this event.	 */
+	@Override
 	protected void handleDisconnect(Figure start, Figure end) {
 		if (connected) {
 			((StartNode)start).connected(false);	

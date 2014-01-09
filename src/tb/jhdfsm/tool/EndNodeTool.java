@@ -10,7 +10,6 @@ public class EndNodeTool extends ActionTool {
 
 	public EndNodeTool(DrawingView itsView) {
 		super(itsView);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

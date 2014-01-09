@@ -1,4 +1,4 @@
-package tb.jhdfsm.interfaces;
+package tb.jhdfsm.figure;
 
 public interface Validatable {
 	
