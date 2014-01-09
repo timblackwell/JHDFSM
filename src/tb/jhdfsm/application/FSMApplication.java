@@ -9,7 +9,7 @@ import tb.jhdfsm.command.SendInputCommand;
 import tb.jhdfsm.command.ValidateCommand;
 import tb.jhdfsm.connector.OneNodeConnector;
 import tb.jhdfsm.connector.ZeroNodeConnector;
-import tb.jhdfsm.figure.NodeFigure;
+import tb.jhdfsm.figure.StateFigure;
 import tb.jhdfsm.figure.StartNode;
 import tb.jhdfsm.tool.EndNodeTool;
 import tb.jhdfsm.tool.NodeConnectionTool;
@@ -39,13 +39,13 @@ public class FSMApplication extends DrawApplication {
 	protected void createTools(JPanel palette) {
         super.createTools(palette);
 
-        Tool  tool = new TextTool(view(), new NodeFigure());
+        Tool  tool = new TextTool(view(), new StateFigure());
         palette.add(createToolButton(IMAGES+"TEXT", "Text Tool", tool));
         
         tool = new CreationTool(view(), new StartNode());
         palette.add(createToolButton(JHDFSMIMAGES+"STARTNODE", "Start Node Tool", tool)); 
         
-        tool = new CreationTool(view(), new NodeFigure());
+        tool = new CreationTool(view(), new StateFigure());
         palette.add(createToolButton(JHDFSMIMAGES+"STATE", "Node Tool", tool));
         
 		tool = new EndNodeTool(view());
