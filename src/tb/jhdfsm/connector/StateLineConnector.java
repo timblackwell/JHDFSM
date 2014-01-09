@@ -8,7 +8,8 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 
-import tb.jhdfsm.figure.StateFigure;
+import tb.jhdfsm.figure.ProcessInput;
+import tb.jhdfsm.figure.Transisional;
 import CH.ifa.draw.figure.ArrowTip;
 import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.figure.connection.LineConnection;
@@ -119,7 +120,7 @@ public class StateLineConnector extends LineConnection {
 	 */
 	@Override
 	public boolean canConnect(Figure start, Figure end) {	
-		return start instanceof StateFigure && end instanceof StateFigure;
+		return start instanceof Transisional && end instanceof Transisional && start instanceof ProcessInput && end instanceof ProcessInput;
 	}
 
 	
@@ -128,8 +129,8 @@ public class StateLineConnector extends LineConnection {
 	 * this event.
 	 */
 	protected void handleConnect(Figure start, Figure end) {
-		if (start instanceof StateFigure) {
-			((StateFigure) start).addConnector(this);
+		if (start instanceof Transisional) {
+			((Transisional) start).addConnector(this);
 		}
 	}
 
@@ -138,8 +139,8 @@ public class StateLineConnector extends LineConnection {
 	 * this event.
 	 */
 	protected void handleDisconnect(Figure start, Figure end) {
-		if (start instanceof StateFigure) {
-			((StateFigure) start).removeConnector(this);
+		if (start instanceof Transisional) {
+			((Transisional) start).removeConnector(this);
 		}
 	}
 

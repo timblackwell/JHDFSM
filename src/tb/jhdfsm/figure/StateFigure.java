@@ -12,21 +12,20 @@ import java.awt.Rectangle;
 import java.util.Vector;
 
 import tb.jhdfsm.connector.OneNodeConnector;
-import tb.jhdfsm.connector.StateLineConnector;
 import tb.jhdfsm.connector.ZeroNodeConnector;
 import CH.ifa.draw.connector.ChopEllipseConnector;
 import CH.ifa.draw.connector.LocatorConnector;
 import CH.ifa.draw.figure.TextFigure;
+import CH.ifa.draw.figure.connection.LineConnection;
 import CH.ifa.draw.framework.Connector;
 import CH.ifa.draw.framework.Handle;
 
 
-public class StateFigure extends TextFigure implements Validatable {
+public class StateFigure extends TextFigure implements Transisional, ProcessInput {
 
 	private static final long serialVersionUID = -2615020318489739223L;
 	private static final int BORDER = 5;
     private boolean fConnectorsVisible;
-    public boolean endNode;
     private Vector<ZeroNodeConnector> zeroNodeConnectons;
     private Vector<OneNodeConnector> oneNodeConnectons;
     private boolean active;
@@ -95,12 +94,6 @@ public class StateFigure extends TextFigure implements Validatable {
         }
         
         g.drawOval(r.x, r.y, r.width, r.height);
-        
-        if (endNode) {
-            int grow = (int) (r.height*0.15);
-            r.grow(grow, grow);
-            g.drawOval(r.x, r.y, r.width, r.height);
-    	}
     }
 
     @Override
@@ -115,7 +108,6 @@ public class StateFigure extends TextFigure implements Validatable {
         setText("S1");
         Font fb = new Font("Helvetica", Font.BOLD, 12);
         setFont(fb);
-        endNode = false;
         zeroNodeConnectons = new Vector<ZeroNodeConnector>();
         oneNodeConnectons = new Vector<OneNodeConnector>();
         active = false;
@@ -131,7 +123,8 @@ public class StateFigure extends TextFigure implements Validatable {
 		return false;
 	}
 	
-	public void addConnector(StateLineConnector stateLineConnector) {
+	@Override
+	public void addConnector(LineConnection stateLineConnector) {
 		if (stateLineConnector instanceof ZeroNodeConnector) {
 			zeroNodeConnectons.add((ZeroNodeConnector) stateLineConnector);
 		}
@@ -140,7 +133,8 @@ public class StateFigure extends TextFigure implements Validatable {
 		}
 	}
 	
-	public void removeConnector(StateLineConnector stateLineConnector) {
+	@Override
+	public void removeConnector(LineConnection stateLineConnector) {
 		if (stateLineConnector instanceof ZeroNodeConnector) {
 			zeroNodeConnectons.remove((ZeroNodeConnector) stateLineConnector);
 		}
@@ -149,6 +143,7 @@ public class StateFigure extends TextFigure implements Validatable {
 		}
 	}
 
+	@Override
 	public StateFigure nextState(int input) {
 			switch (input) {
 				case 0: {
@@ -168,27 +163,32 @@ public class StateFigure extends TextFigure implements Validatable {
 		return this;
 	}
 	
+	@Override
 	public void activate() {
 		active = true;
 		invalidate();
 	}
 	
+	
+	@Override
 	public void deactivate() {
 		active = false;
 		invalidate();
 	}
 
+	@Override
 	public void reset() {
 		active = startNode;	
 		invalidate();
 	}
 
+	@Override
 	public boolean isActive() {
 		return active;
 	}
 	
+	@Override
 	public void setStartNode(boolean startNode) {
 		this.startNode = startNode;
-	}
-	
+	}	
 }

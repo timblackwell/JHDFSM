@@ -7,12 +7,13 @@ import java.awt.Rectangle;
 import java.util.Vector;
 
 import tb.jhdfsm.connector.StartNodeConnector;
+import CH.ifa.draw.figure.connection.LineConnection;
 import CH.ifa.draw.framework.ConnectionFigure;
 import CH.ifa.draw.framework.Handle;
 import CH.ifa.draw.handle.ConnectionHandle;
 import CH.ifa.draw.locator.RelativeLocator;
 
-public class StartNode extends CircleFigure implements Validatable {
+public class StartNode extends CircleFigure implements Transisional {
 
 	/**
 	 * 
@@ -84,12 +85,16 @@ public class StartNode extends CircleFigure implements Validatable {
         return handles;
     }
 
-	public void addConnector(StartNodeConnector connector) {
-		startNodeConnectors.add(connector);
+	@Override
+	public void addConnector(LineConnection connector) {
+		if (connector instanceof StartNodeConnector)
+			startNodeConnectors.add((StartNodeConnector)connector);
 	}
 	
-	public void removeConnector(StartNodeConnector connector) {
-		startNodeConnectors.remove(connector);
+	@Override
+	public void removeConnector(LineConnection connector) {
+		if (connector instanceof StartNodeConnector)
+			startNodeConnectors.remove((StartNodeConnector)connector);
 	}
 	
 	@Override

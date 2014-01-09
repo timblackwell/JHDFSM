@@ -2,6 +2,7 @@ package tb.jhdfsm.command;
 
 import java.util.Enumeration;
 
+import tb.jhdfsm.figure.ProcessInput;
 import tb.jhdfsm.figure.StateFigure;
 import CH.ifa.draw.command.Command;
 import CH.ifa.draw.framework.Drawing;
@@ -25,8 +26,8 @@ private DrawingView fView;
 		while (figures.hasMoreElements()) {
 			Figure fig = figures.nextElement();
 			
-			if (fig instanceof StateFigure) {
-				StateFigure node = (StateFigure)fig;
+			if (fig instanceof ProcessInput) {
+				ProcessInput node = (ProcessInput)fig;
 				node.reset();
 			}
 		}
