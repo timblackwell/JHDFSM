@@ -8,73 +8,48 @@ package tb.jhdfsm.figure;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Enumeration;
 import java.util.Vector;
 
 import tb.jhdfsm.connector.NodeConnector;
+import tb.jhdfsm.connector.OneNodeConnector;
+import tb.jhdfsm.connector.ZeroNodeConnector;
+import tb.jhdfsm.interfaces.Validatable;
 import CH.ifa.draw.connector.ChopEllipseConnector;
 import CH.ifa.draw.connector.LocatorConnector;
 import CH.ifa.draw.figure.TextFigure;
-import CH.ifa.draw.framework.ConnectionFigure;
 import CH.ifa.draw.framework.Connector;
 import CH.ifa.draw.framework.Handle;
-import CH.ifa.draw.handle.ConnectionHandle;
-import CH.ifa.draw.locator.RelativeLocator;
-import CH.ifa.draw.util.Geom;
 
 
-public class NodeFigure extends TextFigure {
+public class NodeFigure extends TextFigure implements Validatable {
 
 	private static final long serialVersionUID = -2615020318489739223L;
 	private static final int BORDER = 5;
     private boolean fConnectorsVisible;
     public boolean endNode;
-	private Vector<LocatorConnector> fConnectors;
-
+//	private NodeConnector[] NodeConnectors;
+    private Vector<ZeroNodeConnector> zeroNodeConnectons;
+    private Vector<OneNodeConnector> oneNodeConnectons;
+    private boolean active;
+    private boolean startNode;
+    
     public NodeFigure() {
         initialize();
     }
 
+    @Override
+   	public boolean canConnect() {
+           return true;
+       }
+    
     /**
      */
     @Override
 	public Connector connectorAt(int x, int y) {
-        return findConnector(x, y);
+    	return new ChopEllipseConnector(this);
     }
     
-    private Connector findConnector(int x, int y) {
-        // return closest connector
-        long min = Long.MAX_VALUE;
-        Connector closest = null;
-        Enumeration<LocatorConnector> e = connectors().elements();
-        while (e.hasMoreElements()) {
-            Connector c = e.nextElement();
-            Point p2 = Geom.center(c.displayBox());
-            long d = Geom.length2(x, y, p2.x, p2.y);
-            if (d < min) {
-                min = d;
-                closest = c;
-            }
-        }
-        return closest;
-    }
-    
-    private Vector<LocatorConnector> connectors() {
-		if (fConnectors == null)
-            createConnectors();
-        return fConnectors;
-    }
-    
-    private void createConnectors() {
-        fConnectors = new Vector<LocatorConnector>(4);
-        fConnectors.addElement(new LocatorConnector(this, RelativeLocator.north()) );
-        fConnectors.addElement(new LocatorConnector(this, RelativeLocator.south()) );
-        fConnectors.addElement(new LocatorConnector(this, RelativeLocator.west()) );
-        fConnectors.addElement(new LocatorConnector(this, RelativeLocator.east()) );
-    }
-
     /**
      */
     @Override
@@ -110,22 +85,22 @@ public class NodeFigure extends TextFigure {
 	public void draw(Graphics g) {
     	this.drawBackground(g);
         super.draw(g);
-        drawConnectors(g);
     }
     
-    private void drawConnectors(Graphics g) {
-        if (fConnectorsVisible) {
-            Enumeration<LocatorConnector> e = connectors().elements();
-            while (e.hasMoreElements())
-                e.nextElement().draw(g);
-        }
-    }
 
     @Override
     public void drawBackground(Graphics g) {    	
     	Rectangle r = displayBox();
-        g.fillOval(r.x, r.y, r.width, r.height);    	
-    	g.setColor(getFrameColor());
+        g.fillOval(r.x, r.y, r.width, r.height);
+        
+        if (active) {
+        	g.setColor(Color.GREEN);
+        } else if (isValid()) {
+        	g.setColor(getFrameColor());
+        } else {
+        	g.setColor(Color.RED);
+        }
+        
         g.drawOval(r.x, r.y, r.width, r.height);
         
         if (endNode) {
@@ -134,17 +109,18 @@ public class NodeFigure extends TextFigure {
             g.drawOval(r.x, r.y, r.width, r.height);
     	}
         
+//        if (active) {        	
+//        	int grow = (int) (r.height*0.15);
+//            r.grow(grow, grow);
+//            
+//            g.setColor(getFrameColor());
+//            g.drawOval(r.x, r.y, r.width, r.height);
+//        }
     }
 
     @Override
 	public Vector<Handle> handles() {
     	 Vector<Handle> handles = new Vector<Handle>();
-         ConnectionFigure prototype = new NodeConnector();
-
-         handles.addElement(new ConnectionHandle(this, RelativeLocator.north(), prototype));
-         handles.addElement(new ConnectionHandle(this, RelativeLocator.east(), prototype));
-         handles.addElement(new ConnectionHandle(this, RelativeLocator.south(), prototype));
-         handles.addElement(new ConnectionHandle(this, RelativeLocator.west(), prototype));
          return handles;
     }
 
@@ -155,5 +131,79 @@ public class NodeFigure extends TextFigure {
         Font fb = new Font("Helvetica", Font.BOLD, 12);
         setFont(fb);
         endNode = false;
+        zeroNodeConnectons = new Vector<ZeroNodeConnector>();
+        oneNodeConnectons = new Vector<OneNodeConnector>();
+        active = false;
+        startNode = false;
     }
+
+	@Override
+	public boolean isValid() {
+		if (zeroNodeConnectons.size() == 1 && oneNodeConnectons.size() == 1) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public void addConnector(NodeConnector connector) {
+		if (connector instanceof ZeroNodeConnector) {
+			zeroNodeConnectons.add((ZeroNodeConnector) connector);
+		}
+		if (connector instanceof OneNodeConnector) {
+			oneNodeConnectons.add((OneNodeConnector) connector);
+		}
+	}
+	
+	public void removeConnector(NodeConnector connector) {
+		if (connector instanceof ZeroNodeConnector) {
+			zeroNodeConnectons.remove((ZeroNodeConnector) connector);
+		}
+		if (connector instanceof OneNodeConnector) {
+			oneNodeConnectons.remove((OneNodeConnector) connector);
+		}
+	}
+
+	public NodeFigure nextState(int input) {
+			switch (input) {
+				case 0: {
+					if (zeroNodeConnectons.size() > 0) {
+						return (NodeFigure)zeroNodeConnectons.firstElement().endFigure();
+					}
+					break;
+				}
+				case 1: {
+					if (oneNodeConnectons.size() > 0) {
+						return (NodeFigure)oneNodeConnectons.firstElement().endFigure();
+					}
+					break;
+				}
+			}
+		
+		return this;
+	}
+	
+	public void activate() {
+		active = true;
+		invalidate();
+	}
+	
+	public void deactivate() {
+		active = false;
+		invalidate();
+	}
+
+	public void reset() {
+		active = startNode;	
+		invalidate();
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+	
+	public void setStartNode(boolean startNode) {
+		this.startNode = startNode;
+	}
+	
 }
