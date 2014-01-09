@@ -1,6 +1,6 @@
 package tb.jhdfsm.connector;
 
-import tb.jhdfsm.figure.NodeFigure;
+import tb.jhdfsm.figure.StateFigure;
 import tb.jhdfsm.figure.StartNode;
 import CH.ifa.draw.figure.ArrowTip;
 import CH.ifa.draw.figure.connection.LineConnection;
@@ -26,7 +26,7 @@ public class StartNodeConnector extends LineConnection {
 	 */
 	@Override
 	public boolean canConnect(Figure start, Figure end) {
-		return start.canConnect() && start instanceof StartNode && end instanceof NodeFigure;
+		return start.canConnect() && start instanceof StartNode && end instanceof StateFigure;
 	}
 
 
@@ -38,7 +38,7 @@ public class StartNodeConnector extends LineConnection {
 		((StartNode)start).connected(true);
 		((StartNode)start).addConnector(this);
 		connected = true;
-		((NodeFigure)end).setStartNode(true);
+		((StateFigure)end).setStartNode(true);
 
 	}
 
@@ -49,8 +49,8 @@ public class StartNodeConnector extends LineConnection {
 		if (connected) {
 			((StartNode)start).connected(false);	
 		((StartNode)start).removeConnector(this);
-		if (end instanceof NodeFigure) {
-			((NodeFigure)end).setStartNode(false);
+		if (end instanceof StateFigure) {
+			((StateFigure)end).setStartNode(false);
 		}
 		}
 	}

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Vector;
 
-import tb.jhdfsm.figure.NodeFigure;
+import tb.jhdfsm.figure.StateFigure;
 import CH.ifa.draw.figure.ArrowTip;
 import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.figure.connection.LineConnection;
@@ -139,7 +139,7 @@ public class StateLineConnector extends LineConnection {
 	 */
 	@Override
 	public boolean canConnect(Figure start, Figure end) {	
-		return start instanceof NodeFigure && end instanceof NodeFigure;
+		return start instanceof StateFigure && end instanceof StateFigure;
 	}
 
 	
@@ -148,8 +148,8 @@ public class StateLineConnector extends LineConnection {
 	 * this event.
 	 */
 	protected void handleConnect(Figure start, Figure end) {
-		if (start instanceof NodeFigure) {
-			((NodeFigure) start).addConnector(this);
+		if (start instanceof StateFigure) {
+			((StateFigure) start).addConnector(this);
 		}
 	}
 
@@ -158,8 +158,8 @@ public class StateLineConnector extends LineConnection {
 	 * this event.
 	 */
 	protected void handleDisconnect(Figure start, Figure end) {
-		if (start instanceof NodeFigure) {
-			((NodeFigure) start).removeConnector(this);
+		if (start instanceof StateFigure) {
+			((StateFigure) start).removeConnector(this);
 		}
 	}
 

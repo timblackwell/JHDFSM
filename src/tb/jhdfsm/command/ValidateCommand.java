@@ -8,7 +8,7 @@ import java.util.Map;
 
 import tb.jhdfsm.connector.StartNodeConnector;
 import tb.jhdfsm.connector.StateLineConnector;
-import tb.jhdfsm.figure.NodeFigure;
+import tb.jhdfsm.figure.StateFigure;
 import tb.jhdfsm.figure.StartNode;
 import tb.jhdfsm.figure.UserIOFigure;
 import tb.jhdfsm.figure.UserIOFigure.ValidationError;
@@ -36,7 +36,7 @@ private DrawingView fView;
 		List<StartNode> startNodes = new ArrayList<StartNode>();
 		List<StartNodeConnector> startNodeConnectors = new ArrayList<StartNodeConnector>();
 
-		List<NodeFigure> nodes = new ArrayList<NodeFigure>();
+		List<StateFigure> nodes = new ArrayList<StateFigure>();
 		List<StateLineConnector> nodeConnectors = new ArrayList<StateLineConnector>();
 		
 		Figure figure;
@@ -46,8 +46,8 @@ private DrawingView fView;
 			figure = figures.nextElement();
 			if (figure instanceof StartNode) {
 				startNodes.add((StartNode)figure);
-			} else if (figure instanceof NodeFigure) {
-				nodes.add((NodeFigure)figure);
+			} else if (figure instanceof StateFigure) {
+				nodes.add((StateFigure)figure);
 			} else if (figure instanceof StateLineConnector) {
 				nodeConnectors.add((StateLineConnector)figure);
 			} else if (figure instanceof StartNodeConnector) {
@@ -93,9 +93,9 @@ private DrawingView fView;
 			}
 		}
 		
-		Map<NodeFigure,ArrayList<StateLineConnector>> nodeConnectorHash = new HashMap<NodeFigure,ArrayList<StateLineConnector>>();
+		Map<StateFigure,ArrayList<StateLineConnector>> nodeConnectorHash = new HashMap<StateFigure,ArrayList<StateLineConnector>>();
 		
-		for (NodeFigure node : nodes) {
+		for (StateFigure node : nodes) {
 			nodeConnectorHash.put(node, new ArrayList<StateLineConnector>());
 			for (StateLineConnector nodeConnector : nodeConnectors) {
 				if (nodeConnector.startFigure().equals(node)){
@@ -104,7 +104,7 @@ private DrawingView fView;
 			}
 		}
 		
-		for (NodeFigure node : nodes) {
+		for (StateFigure node : nodes) {
 			switch (nodeConnectorHash.get(node).size()) {
 				case 0 : {
 					errorsFigure.addError(ValidationError.MissingNodeConnection);

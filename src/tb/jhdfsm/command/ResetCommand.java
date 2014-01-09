@@ -2,7 +2,7 @@ package tb.jhdfsm.command;
 
 import java.util.Enumeration;
 
-import tb.jhdfsm.figure.NodeFigure;
+import tb.jhdfsm.figure.StateFigure;
 import CH.ifa.draw.command.Command;
 import CH.ifa.draw.framework.Drawing;
 import CH.ifa.draw.framework.DrawingView;
@@ -25,8 +25,8 @@ private DrawingView fView;
 		while (figures.hasMoreElements()) {
 			Figure fig = figures.nextElement();
 			
-			if (fig instanceof NodeFigure) {
-				NodeFigure node = (NodeFigure)fig;
+			if (fig instanceof StateFigure) {
+				StateFigure node = (StateFigure)fig;
 				node.reset();
 			}
 		}
