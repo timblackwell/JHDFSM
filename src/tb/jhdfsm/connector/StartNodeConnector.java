@@ -20,14 +20,14 @@ import CH.ifa.draw.handle.ChangeConnectionStartHandle;
 import CH.ifa.draw.handle.PolyLineHandle;
 import CH.ifa.draw.storable.StorableInput;
 import CH.ifa.draw.storable.StorableOutput;
-import CH.ifa.draw.util.Animatable;
 
-public class StartNodeConnector extends PolyLineFigure implements ConnectionFigure, Animatable {
+public class StartNodeConnector extends PolyLineFigure implements ConnectionFigure {
 	
 	protected Connector fStart = null;
 	protected Connector fEnd = null;
 	
 	private boolean connected = false;
+	
 	/**
 	 * 
 	 */
@@ -193,19 +193,23 @@ public class StartNodeConnector extends PolyLineFigure implements ConnectionFigu
 	 * this event.
 	 */
 	protected void handleConnect(Figure start, Figure end) {
-//		OrbitFigure orbiter = (OrbitFigure)end;
-//		orbiter.canOrbit(false);
 		((StartNode)start).connected(true);
+		((StartNode)start).addConnector(this);
 		connected = true;
+		((NodeFigure)end).setStartNode(true);
+
 	}
 
 	/**
 	 * Handles the disconnection of a connection. Override this method to handle
-	 * this event.
-	 */
+	 * this event.	 */
 	protected void handleDisconnect(Figure start, Figure end) {
 		if (connected) {
 			((StartNode)start).connected(false);	
+		}
+		((StartNode)start).removeConnector(this);
+		if (end instanceof NodeFigure) {
+			((NodeFigure)end).setStartNode(false);
 		}
 	}
 
@@ -351,30 +355,5 @@ public class StartNodeConnector extends PolyLineFigure implements ConnectionFigu
 		super.write(dw);
 		dw.writeStorable(fStart);
 		dw.writeStorable(fEnd);
-	}
-
-	@Override
-	public void animationStep() {
-		try {
-			Figure end = this.endFigure();
-			Point orbited = this.startFigure().center();	
-			Point orbiter = end.center();
-			
-			int dx = orbiter.x - orbited.x;
-			int dy = orbiter.y - orbited.y;
-
-			double rotationRad = Math.PI/48;
-			double sinAngle = Math.sin(rotationRad);
-			double cosAngle = Math.cos(rotationRad);
-			
-			int rotatedX = (int) (cosAngle*dx - sinAngle*dy + orbited.x);
-			int rotatedY = (int) (sinAngle*dx + cosAngle*dy + orbited.y);
-			
-			end.moveBy(rotatedX-orbiter.x, rotatedY-orbiter.y);
-			
-		} catch (NullPointerException e) {
-			System.out.println("trying to animate an incomplete gravity connection");
-		}
-
 	}
 }

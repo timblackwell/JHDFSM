@@ -7,12 +7,13 @@ import java.awt.Rectangle;
 import java.util.Vector;
 
 import tb.jhdfsm.connector.StartNodeConnector;
+import tb.jhdfsm.interfaces.Validatable;
 import CH.ifa.draw.framework.ConnectionFigure;
 import CH.ifa.draw.framework.Handle;
 import CH.ifa.draw.handle.ConnectionHandle;
 import CH.ifa.draw.locator.RelativeLocator;
 
-public class StartNode extends CircleFigure{
+public class StartNode extends CircleFigure implements Validatable {
 
 	/**
 	 * 
@@ -21,11 +22,15 @@ public class StartNode extends CircleFigure{
 
     public boolean endNode;
     private boolean canConnect = true;
+    private Vector<StartNodeConnector> startNodeConnectors;
+    private boolean active;
 
 	public StartNode() {
 		super();
 		this.setAttribute("FillColor", Color.BLACK);
 		this.setAttribute("FrameColor", Color.BLACK);
+		startNodeConnectors = new Vector<StartNodeConnector>();
+		active = false;
 	}
 
 
@@ -41,7 +46,7 @@ public class StartNode extends CircleFigure{
 	@Override
 	public void basicDisplayBox(Point origin, Point corner) {
     	centerPoint = origin;
-    	int maxXY = 10;
+    	int maxXY = 5;
     	updateDisplayBox(maxXY);    
 	}
 	
@@ -50,7 +55,20 @@ public class StartNode extends CircleFigure{
         Rectangle r = displayBox();
         g.fillOval(r.x, r.y, r.width, r.height);
         
+        if (!isValid()) {
+        	g.setColor(Color.RED);
+            g.drawOval(r.x, r.y, r.width, r.height);
+        }
+        
         if (endNode) {        	
+        	int grow = (int) (r.height*0.15);
+            r.grow(grow, grow);
+            
+            g.setColor(getFrameColor());
+            g.drawOval(r.x, r.y, r.width, r.height);
+        }
+        
+        if (active) {        	
         	int grow = (int) (r.height*0.15);
             r.grow(grow, grow);
             
@@ -66,4 +84,17 @@ public class StartNode extends CircleFigure{
         handles.addElement(new ConnectionHandle(this, RelativeLocator.center(), prototype));
         return handles;
     }
+
+	public void addConnector(StartNodeConnector connector) {
+		startNodeConnectors.add(connector);
+	}
+	
+	public void removeConnector(StartNodeConnector connector) {
+		startNodeConnectors.remove(connector);
+	}
+	
+	@Override
+	public boolean isValid() {
+		return startNodeConnectors.size() == 1;
+	}
 }

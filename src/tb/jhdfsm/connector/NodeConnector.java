@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,13 +25,13 @@ import CH.ifa.draw.handle.ChangeConnectionStartHandle;
 import CH.ifa.draw.handle.PolyLineHandle;
 import CH.ifa.draw.storable.StorableInput;
 import CH.ifa.draw.storable.StorableOutput;
-import CH.ifa.draw.util.Animatable;
 
-public class NodeConnector extends PolyLineFigure implements ConnectionFigure, Animatable {
+public class NodeConnector extends PolyLineFigure implements ConnectionFigure {
 	
 	protected Connector fStart = null;
 	protected Connector fEnd = null;
 	private TextFigure lable = null;
+	private int value = 0;
 
 	/**
 	 * 
@@ -37,11 +39,21 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 	private static final long serialVersionUID = -7684104213783845083L;
 	
 	public NodeConnector () {
+		this(0);
+	}
+	
+	public NodeConnector (int value) {
 		super(4);
 		setEndDecoration(new ArrowTip());
 		lable = new TextFigure();
-		lable.setText("test");
 		lable.setAttribute("FillColor", Color.lightGray);
+		lable.setText(String.valueOf(value));
+		lable.setReadOnly(true);
+		this.value = value;
+	}
+	
+	public int getValue() {
+		return this.value;
 	}
 	
 	public Figure getTextFigure() {
@@ -56,12 +68,15 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		// don't move the start and end point since they are connected
 		for (int i = 1; i < fPoints.size() - 1; i++)
 			fPoints.elementAt(i).translate(dx, dy);
-		
-		
-
 		updateConnection(); // make sure that we are still connected
 	}
 	
+	@Override
+	public Rectangle displayBox() {
+		Rectangle superBox = super.displayBox();
+		superBox.add(lable.displayBox());
+		return superBox;
+	}
 	
 	private void decorate(Graphics g) {
 		if (fStartDecoration != null) {
@@ -79,38 +94,42 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 	@Override
 	public void draw(Graphics g) {
 		
-		if (fStart != null && fEnd != null) {
-			Point start = fStart.findStart(this);
-			Point end = fEnd.findEnd(this);
-			double midx = Math.min(end.x, start.x)+((end.x-start.x)/2);
-			
+		if (fStart == null || lable == null || fEnd == null) {
+			super.draw(g);
+			return;
+	    } 
+		
+		Point start = fStart.findStart(this);
+		Point end = fEnd.findEnd(this);
+		Point center = lable.center();
+				
+		if (start.x == end.x && start.y == end.y) {
+			g.drawOval(start.x, start.y-10, center.x-start.x , 20);
+		} else {
 	        Path2D curve = new Path2D.Double();
 	        curve.moveTo(start.x, start.y);
-	        curve.curveTo(start.x, start.y, midx, start.y, end.x, end.y);
-
+	        curve.curveTo(start.x, start.y, center.x, center.y, end.x, end.y);
+	
 	        Graphics2D g2 = (Graphics2D)g;
 	        g2.draw(curve);		
-	        
-	        decorate(g);
-	    } else {
-	    	super.draw(g);
 		}
+		
+        decorate(g);
 		lable.draw(g);
-
 	}	
 	
 	@Override
 	public boolean containsPoint(int x, int y) {
 		boolean lineContainsPoint = false;
 		
-		if (fStart != null && fEnd != null) {
+		if (fStart != null && lable != null && fEnd != null) {
 			Point start = fStart.findStart(this);
 			Point end = fEnd.findEnd(this);
-			double midx = Math.min(end.x, start.x)+((end.x-start.x)/2);
+//			double midx = Math.min(end.x, start.x)+((end.x-start.x)/2);
 			
 	        Path2D curve = new Path2D.Double();
 	        curve.moveTo(start.x, start.y);
-	        curve.curveTo(start.x, start.y, midx, start.y, end.x, end.y);
+	        curve.curveTo(start.x, start.y, lable.center().x, lable.center().y, end.x, end.y);
 	        
 		    lineContainsPoint = curve.contains(x, y);
 	    } else {
@@ -125,14 +144,14 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 	 */
 	@Override
 	public boolean canConnect() {
-		return true;
+		return false;
 	}
 
 	/**
 	 * Tests whether two figures can be connected.
 	 */
 	@Override
-	public boolean canConnect(Figure start, Figure end) {				
+	public boolean canConnect(Figure start, Figure end) {	
 		return start instanceof NodeFigure && end instanceof NodeFigure;
 	}
 
@@ -253,8 +272,9 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 	 * this event.
 	 */
 	protected void handleConnect(Figure start, Figure end) {
-//		OrbitFigure orbiter = (OrbitFigure)end;
-//		orbiter.canOrbit(false);
+		if (start instanceof NodeFigure) {
+			((NodeFigure) start).addConnector(this);
+		}
 	}
 
 	/**
@@ -262,10 +282,9 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 	 * this event.
 	 */
 	protected void handleDisconnect(Figure start, Figure end) {
-//		if (start != null) {
-//		OrbitFigure orbiter = (OrbitFigure)end;
-//		orbiter.canOrbit(true);
-//		}
+		if (start instanceof NodeFigure) {
+			((NodeFigure) start).removeConnector(this);
+		}
 	}
 
 	/**
@@ -279,6 +298,9 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		for (int i = 1; i < fPoints.size() - 1; i++)
 			handles.addElement(new PolyLineHandle(this, locator(i), i));
 		handles.addElement(new ChangeConnectionEndHandle(this));
+		
+//		handles.addElement(new LocatorHandle(lable, RelativeLocator.center()));
+
 		return handles;
 	}
 
@@ -414,8 +436,30 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		if (fStart != null && fEnd != null) {
 			y = y - (lable.displayBox().height/2);
 			x = x - (lable.displayBox().width/2);
-			Point center = new Point(x, y);
-			lable.displayBox(center, center);			
+			
+			if (fStart.owner() == fEnd.owner()) {
+				 x += 15;
+			}
+			
+			Point center = fStart.owner().center();
+			
+			double[] pt = {x, y};
+			double roationAngle = 20;
+			
+			if (value == 1) {
+				roationAngle = 0 - roationAngle;
+			}
+			
+			AffineTransform.getRotateInstance(Math.toRadians(roationAngle), center.x, center.y)
+			  .transform(pt, 0, pt, 0, 1); // specifying to use this double[] to hold coords
+			double newX = pt[0];
+			double newY = pt[1];
+			
+			x = (int) newX;
+			y = (int) newY;
+			
+			Point lableCenter = new Point(x, y);
+			lable.displayBox(lableCenter, lableCenter);			
 		}
 		
 	}
@@ -425,31 +469,5 @@ public class NodeConnector extends PolyLineFigure implements ConnectionFigure, A
 		super.write(dw);
 		dw.writeStorable(fStart);
 		dw.writeStorable(fEnd);
-	}
-	
-
-	@Override
-	public void animationStep() {
-		try {
-			Figure end = this.endFigure();
-			Point orbited = this.startFigure().center();	
-			Point orbiter = end.center();
-			
-			int dx = orbiter.x - orbited.x;
-			int dy = orbiter.y - orbited.y;
-
-			double rotationRad = Math.PI/48;
-			double sinAngle = Math.sin(rotationRad);
-			double cosAngle = Math.cos(rotationRad);
-			
-			int rotatedX = (int) (cosAngle*dx - sinAngle*dy + orbited.x);
-			int rotatedY = (int) (sinAngle*dx + cosAngle*dy + orbited.y);
-			
-			end.moveBy(rotatedX-orbiter.x, rotatedY-orbiter.y);
-			
-		} catch (NullPointerException e) {
-			System.out.println("trying to animate an incomplete gravity connection");
-		}
-
 	}
 }

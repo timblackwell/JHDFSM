@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Vector;
 
 import CH.ifa.draw.figure.CompositeFigure;
-import CH.ifa.draw.figure.NumberTextFigure;
 import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.framework.FigureChangeEvent;
@@ -56,10 +55,14 @@ public class UserIOFigure extends CompositeFigure {
     
     public void clearErrors() {
     	errors.clear();
-    	Vector<Figure> extras = this.fFigures;
-    	extras.remove(0);
-    	this.removeAll();
-    	initialize();
+    	
+    	fFigures = new Vector<>(fFigures.subList(0, 3));
+//    	for(int i = 3; i < fFigures.size(); i++) {
+//    		remove(fFigures.elementAt(i));
+//    	}
+    	this.changed();
+//    	removeAll();
+//    	initialize();
     }
     
     public void addError(ValidationError error) {
@@ -70,6 +73,7 @@ public class UserIOFigure extends CompositeFigure {
     	TextFigure end = new TextFigure();
     	end.setText(error.name());
     	end.setFont(f);
+    	end.setAttribute("TextColor", Color.RED);
     	end.setReadOnly(true);
     	add(end);
     }
@@ -115,6 +119,13 @@ public class UserIOFigure extends CompositeFigure {
 
     public void draw(Graphics g) {
         drawBorder(g);
+        TextFigure inputString = (TextFigure) fFigures.elementAt(1);
+        if (!inputString.getText().matches("[01]*")) {
+        	inputString.setAttribute("TextColor", Color.RED);
+        } else {
+        	inputString.setAttribute("TextColor", Color.BLACK);
+        }
+        
         super.draw(g);
     }
 
@@ -128,6 +139,8 @@ public class UserIOFigure extends CompositeFigure {
     }
 
     private void initialize() {
+        fDisplayBox = new Rectangle(0, 0, 0, 0);
+
         Font f = new Font("Helvetica", Font.PLAIN, 12);
         Font fb = new Font("Helvetica", Font.BOLD, 12);
 
@@ -150,7 +163,6 @@ public class UserIOFigure extends CompositeFigure {
         errorsLable.moveBy(BORDER, BORDER);
         add(errorsLable);
         
-        fDisplayBox = errorsLable.displayBox();
 //        fDisplayBox.grow(2*BORDER, 2*BORDER);
     }
 
@@ -214,7 +226,7 @@ public class UserIOFigure extends CompositeFigure {
         errorsLable.setText("Validation errors: " + errors.size());
         
         
-        System.out.println("update");
+//        System.out.println("update");
 //    	notifyPostTasks();
     }
     
