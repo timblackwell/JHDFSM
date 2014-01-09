@@ -34,7 +34,7 @@ import CH.ifa.draw.util.Geom;
  * @see Object#clone
  */
 
-public class NodeConnectionTool extends AbstractTool {
+public class StateConnectionTool extends AbstractTool {
 
     /**
      * the anchor point of the interaction
@@ -67,7 +67,7 @@ public class NodeConnectionTool extends AbstractTool {
     private ConnectionFigure  fPrototype;
 
 
-    public NodeConnectionTool(DrawingView view, ConnectionFigure prototype) {
+    public StateConnectionTool(DrawingView view, ConnectionFigure prototype) {
         super(view);
         fPrototype = prototype;
     }

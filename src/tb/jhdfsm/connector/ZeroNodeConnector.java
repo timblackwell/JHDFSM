@@ -1,7 +1,5 @@
 package tb.jhdfsm.connector;
 
-
-
 public class ZeroNodeConnector extends StateLineConnector {
 	
 	/**
@@ -12,11 +10,4 @@ public class ZeroNodeConnector extends StateLineConnector {
 	public ZeroNodeConnector () {
 		super(0);
 	}
-
-//	@Override
-//	public void connectStart(Connector start) {
-//	super.connectStart(start);
-//		NodeFigure startFigure = (NodeFigure) start.owner();
-//		startFigure.setConnector((ZeroNodeConnector)this);
-//	}
 }

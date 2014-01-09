@@ -55,12 +55,6 @@ public class UserIOFigure extends CompositeFigure {
     
     public void clearErrors() {
     	errors.clear();
-    	
-//    	fFigures = new Vector<>(fFigures.subList(0, 3));
-////    	for(int i = 3; i < fFigures.size(); i++) {
-////    		remove(fFigures.elementAt(i));
-////    	}
-//    	this.changed();
     	removeAll();
     	initialize();
     }
@@ -140,22 +134,8 @@ public class UserIOFigure extends CompositeFigure {
 
     private void initialize() {
         fDisplayBox = new Rectangle(0, 0, 0, 0);
-
-        Font f = new Font("Helvetica", Font.PLAIN, 12);
         Font fb = new Font("Helvetica", Font.BOLD, 12);
-
-//        TextFigure inputStringLable = new TextFigure();
-//        inputStringLable.setFont(fb);
-//        inputStringLable.setText("Input string:");
-//        inputStringLable.setReadOnly(true);
-//        add(inputStringLable);
-//        
-//        TextFigure inputString = new TextFigure();
-//        inputString.setFont(f);
-//        inputString.setText("Enter input string");
-//        inputString.setReadOnly(false);
-//        add(inputString);
-
+        
         TextFigure errorsLable = new TextFigure();
         errorsLable.setFont(fb);
         errorsLable.setText("Validation errors: " + errors.size());

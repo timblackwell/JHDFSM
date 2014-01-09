@@ -7,24 +7,12 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Vector;
 
 import tb.jhdfsm.figure.StateFigure;
 import CH.ifa.draw.figure.ArrowTip;
 import CH.ifa.draw.figure.TextFigure;
 import CH.ifa.draw.figure.connection.LineConnection;
-import CH.ifa.draw.framework.ConnectionFigure;
-import CH.ifa.draw.framework.Connector;
 import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.FigureChangeEvent;
-import CH.ifa.draw.framework.Handle;
-import CH.ifa.draw.handle.ChangeConnectionEndHandle;
-import CH.ifa.draw.handle.ChangeConnectionStartHandle;
-import CH.ifa.draw.handle.PolyLineHandle;
-import CH.ifa.draw.storable.StorableInput;
-import CH.ifa.draw.storable.StorableOutput;
 
 public class StateLineConnector extends LineConnection {
 	
@@ -125,15 +113,7 @@ public class StateLineConnector extends LineConnection {
 		return lineContainsPoint || lable.containsPoint(x, y); 
 	}
 	
-	/**
-	 * Tests whether a figure can be a connection target. ConnectionFigures
-	 * cannot be connected and return false.
-	 */
-	@Override
-	public boolean canConnect() {
-		return false;
-	}
-
+	
 	/**
 	 * Tests whether two figures can be connected.
 	 */

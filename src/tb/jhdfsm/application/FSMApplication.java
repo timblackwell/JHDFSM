@@ -12,7 +12,7 @@ import tb.jhdfsm.connector.ZeroNodeConnector;
 import tb.jhdfsm.figure.StateFigure;
 import tb.jhdfsm.figure.StartNode;
 import tb.jhdfsm.tool.EndNodeTool;
-import tb.jhdfsm.tool.NodeConnectionTool;
+import tb.jhdfsm.tool.StateConnectionTool;
 import tb.jhdfsm.tool.TextTool;
 import CH.ifa.draw.application.DrawApplication;
 import CH.ifa.draw.command.CommandMenu;
@@ -51,10 +51,10 @@ public class FSMApplication extends DrawApplication {
 		tool = new EndNodeTool(view());
 		palette.add(createToolButton(JHDFSMIMAGES+"ACCEPT", "End Node Tool", tool));
 		
-		tool = new NodeConnectionTool(view(), new ZeroNodeConnector());
+		tool = new StateConnectionTool(view(), new ZeroNodeConnector());
         palette.add(createToolButton(JHDFSMIMAGES+"ZEROCONN", "Node Connector", tool));
 
-		tool = new NodeConnectionTool(view(), new OneNodeConnector());
+		tool = new StateConnectionTool(view(), new OneNodeConnector());
         palette.add(createToolButton(JHDFSMIMAGES+"ONECONN", "1 Node Connector", tool));
 	}
 	
