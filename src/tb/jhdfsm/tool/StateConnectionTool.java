@@ -39,9 +39,9 @@ public class StateConnectionTool extends AbstractTool {
     /**
      * the anchor point of the interaction
      */
-    private Connector   fStartConnector;
-    private Connector   fEndConnector;
-    private Connector   fConnectorTarget = null;
+    protected Connector   fStartConnector;
+    protected Connector   fEndConnector;
+    protected Connector   fConnectorTarget = null;
 
     private Figure fTarget = null;
 
