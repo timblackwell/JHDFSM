@@ -19,8 +19,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="tb.jhdfsm.tool.EndNodeTool" project="JHDFSM" 
-    file="/JHDFSM/src/tb/jhdfsm/tool/EndNodeTool.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="tb.jhdfsm.tool.AcceptStateTool" project="JHDFSM" 
+    file="/JHDFSM/src/tb/jhdfsm/tool/AcceptStateTool.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="447" y="379"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -127,8 +127,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="tb.jhdfsm.connector.ZeroNodeConnector" project="JHDFSM" 
-    file="/JHDFSM/src/tb/jhdfsm/connector/ZeroNodeConnector.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="15" language="java" name="tb.jhdfsm.connector.ZeroStateConnector" project="JHDFSM" 
+    file="/JHDFSM/src/tb/jhdfsm/connector/ZeroStateConnector.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="636" y="1162"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -136,8 +136,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="tb.jhdfsm.connector.OneNodeConnector" project="JHDFSM" 
-    file="/JHDFSM/src/tb/jhdfsm/connector/OneNodeConnector.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="16" language="java" name="tb.jhdfsm.connector.OneStateConnector" project="JHDFSM" 
+    file="/JHDFSM/src/tb/jhdfsm/connector/OneStateConnector.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="426" y="1169"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

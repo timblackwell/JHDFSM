@@ -113,12 +113,12 @@ public class ValidationFigure extends CompositeFigure {
 
     public void draw(Graphics g) {
         drawBorder(g);
-        TextFigure inputString = (TextFigure) fFigures.elementAt(0);
-        if (!inputString.getText().matches("[01]*")) {
-        	inputString.setAttribute("TextColor", Color.RED);
-        } else {
-        	inputString.setAttribute("TextColor", Color.BLACK);
-        }
+//        TextFigure inputString = (TextFigure) fFigures.elementAt(0);
+//        if (!inputString.getText().matches("[01]*")) {
+//        	inputString.setAttribute("TextColor", Color.RED);
+//        } else {
+//        	inputString.setAttribute("TextColor", Color.BLACK);
+//        }
         
         super.draw(g);
     }

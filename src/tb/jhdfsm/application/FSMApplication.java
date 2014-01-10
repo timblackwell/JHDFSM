@@ -7,11 +7,11 @@ import javax.swing.JPanel;
 import tb.jhdfsm.command.ResetCommand;
 import tb.jhdfsm.command.SendInputCommand;
 import tb.jhdfsm.command.ValidateCommand;
-import tb.jhdfsm.connector.OneNodeConnector;
-import tb.jhdfsm.connector.ZeroNodeConnector;
+import tb.jhdfsm.connector.OneStateConnector;
+import tb.jhdfsm.connector.ZeroStateConnector;
 import tb.jhdfsm.figure.StateFigure;
 import tb.jhdfsm.figure.StartNode;
-import tb.jhdfsm.tool.EndNodeTool;
+import tb.jhdfsm.tool.AcceptStateTool;
 import tb.jhdfsm.tool.StateConnectionTool;
 import tb.jhdfsm.tool.TextTool;
 import CH.ifa.draw.application.DrawApplication;
@@ -48,13 +48,13 @@ public class FSMApplication extends DrawApplication {
         tool = new CreationTool(view(), new StateFigure());
         palette.add(createToolButton(JHDFSMIMAGES+"STATE", "Node Tool", tool));
         
-		tool = new EndNodeTool(view());
+		tool = new AcceptStateTool(view());
 		palette.add(createToolButton(JHDFSMIMAGES+"ACCEPT", "End Node Tool", tool));
 		
-		tool = new StateConnectionTool(view(), new ZeroNodeConnector());
+		tool = new StateConnectionTool(view(), new ZeroStateConnector());
         palette.add(createToolButton(JHDFSMIMAGES+"ZEROCONN", "Node Connector", tool));
 
-		tool = new StateConnectionTool(view(), new OneNodeConnector());
+		tool = new StateConnectionTool(view(), new OneStateConnector());
         palette.add(createToolButton(JHDFSMIMAGES+"ONECONN", "1 Node Connector", tool));
 	}
 	

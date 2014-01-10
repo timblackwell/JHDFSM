@@ -1,13 +1,13 @@
 package tb.jhdfsm.connector;
 
-public class OneNodeConnector extends StateLineConnector {
+public class ZeroStateConnector extends StateLineConnector {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7684104213783845083L;
 	
-	public OneNodeConnector () {
-		super(1);
+	public ZeroStateConnector () {
+		super(0);
 	}
 }

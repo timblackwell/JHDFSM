@@ -7,9 +7,9 @@ import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.tool.ActionTool;
 
-public class EndNodeTool extends ActionTool {
+public class AcceptStateTool extends ActionTool {
 
-	public EndNodeTool(DrawingView itsView) {
+	public AcceptStateTool(DrawingView itsView) {
 		super(itsView);
 	}
 

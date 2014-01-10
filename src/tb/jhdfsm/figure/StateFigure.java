@@ -11,8 +11,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Vector;
 
-import tb.jhdfsm.connector.OneNodeConnector;
-import tb.jhdfsm.connector.ZeroNodeConnector;
+import tb.jhdfsm.connector.OneStateConnector;
+import tb.jhdfsm.connector.ZeroStateConnector;
 import CH.ifa.draw.connector.ChopEllipseConnector;
 import CH.ifa.draw.connector.LocatorConnector;
 import CH.ifa.draw.figure.TextFigure;
@@ -26,8 +26,8 @@ public class StateFigure extends TextFigure implements Transisional, ProcessInpu
 	private static final long serialVersionUID = -2615020318489739223L;
 	private static final int BORDER = 5;
     private boolean fConnectorsVisible;
-    private Vector<ZeroNodeConnector> zeroNodeConnectons;
-    private Vector<OneNodeConnector> oneNodeConnectons;
+    private Vector<ZeroStateConnector> zeroNodeConnectons;
+    private Vector<OneStateConnector> oneNodeConnectons;
     private boolean active;
     private boolean startNode;
     
@@ -108,8 +108,8 @@ public class StateFigure extends TextFigure implements Transisional, ProcessInpu
         setText("S1");
         Font fb = new Font("Helvetica", Font.BOLD, 12);
         setFont(fb);
-        zeroNodeConnectons = new Vector<ZeroNodeConnector>();
-        oneNodeConnectons = new Vector<OneNodeConnector>();
+        zeroNodeConnectons = new Vector<ZeroStateConnector>();
+        oneNodeConnectons = new Vector<OneStateConnector>();
         active = false;
         startNode = false;
     }
@@ -125,21 +125,21 @@ public class StateFigure extends TextFigure implements Transisional, ProcessInpu
 	
 	@Override
 	public void addConnector(LineConnection stateLineConnector) {
-		if (stateLineConnector instanceof ZeroNodeConnector) {
-			zeroNodeConnectons.add((ZeroNodeConnector) stateLineConnector);
+		if (stateLineConnector instanceof ZeroStateConnector) {
+			zeroNodeConnectons.add((ZeroStateConnector) stateLineConnector);
 		}
-		if (stateLineConnector instanceof OneNodeConnector) {
-			oneNodeConnectons.add((OneNodeConnector) stateLineConnector);
+		if (stateLineConnector instanceof OneStateConnector) {
+			oneNodeConnectons.add((OneStateConnector) stateLineConnector);
 		}
 	}
 	
 	@Override
 	public void removeConnector(LineConnection stateLineConnector) {
-		if (stateLineConnector instanceof ZeroNodeConnector) {
-			zeroNodeConnectons.remove((ZeroNodeConnector) stateLineConnector);
+		if (stateLineConnector instanceof ZeroStateConnector) {
+			zeroNodeConnectons.remove((ZeroStateConnector) stateLineConnector);
 		}
-		if (stateLineConnector instanceof OneNodeConnector) {
-			oneNodeConnectons.remove((OneNodeConnector) stateLineConnector);
+		if (stateLineConnector instanceof OneStateConnector) {
+			oneNodeConnectons.remove((OneStateConnector) stateLineConnector);
 		}
 	}
 
